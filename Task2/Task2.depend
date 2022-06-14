@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1655097751 source:/home/ahmed-inc1497/Downloads/Task2/main.cpp
+	<iostream>
+	"Bank.h"
+	"Loan.h"
+	"HDFC.h"
+	"ICICI.h"
+	"SBI.h"
+	"Broker.h"
+
+1655096784 /home/ahmed-inc1497/Downloads/Task2/Bank.h
+
+1655096796 /home/ahmed-inc1497/Downloads/Task2/Loan.h
+
+1655096802 /home/ahmed-inc1497/Downloads/Task2/HDFC.h
+	"Bank.h"
+	"Loan.h"
+
+1655096816 /home/ahmed-inc1497/Downloads/Task2/ICICI.h
+	"Bank.h"
+	"Loan.h"
+
+1655096810 /home/ahmed-inc1497/Downloads/Task2/SBI.h
+	"Bank.h"
+	"Loan.h"
+
+1655104374 /home/ahmed-inc1497/Downloads/Task2/Broker.h
+	<climits>
+	"Bank.h"
+	"Loan.h"
+
