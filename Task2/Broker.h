@@ -26,12 +26,12 @@ return obj3;
 
 
 
-Loan compareBanks(Loan arr1[]){
+Loan compareBanks(Loan arr1[],int size1){
 Loan minLoan;
 
 int min1=INT_MAX;
 
-for(int i=0;i<3;i++){
+for(int i=0;i<size1;i++){
 //cout<<min1<<endl;
 
 double min2=arr1[i].getInterestRate();
@@ -45,12 +45,7 @@ min1=arr1[i].getInterestRate();
 }
 return minLoan;
 
-
-
 }
-
-
-
 
 void display(Bank obj){
 obj.getInfo();
