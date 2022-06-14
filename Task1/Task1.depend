@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1654780341 source:/home/ahmed-inc1497/Downloads/Task1/main.cpp
+	<iostream>
+	"Car.h"
+	"Bike.h"
+
+1654772699 /home/ahmed-inc1497/Downloads/Task1/Car.h
+	"Vehicle.h"
+	<iostream>
+
+1654837300 /home/ahmed-inc1497/Downloads/Task1/Vehicle.h
+	"Car.h"
+	<iostream>
+
+1654772906 /home/ahmed-inc1497/Downloads/Task1/Bike.h
+	"Vehicle.h"
+	<iostream>
+
