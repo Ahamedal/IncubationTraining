@@ -3,15 +3,26 @@
 
 class Loan{
 public:
-
+ string bankNameLoan;
  double interestRate;
 
-virtual string getName(){}
-virtual void getAvalilableLoans(){}
-virtual double getInterestRate(){}
-virtual void documentRecuiredForGoldLoan(){}
-virtual void documentRecuiredForPersonnelLoan(){}
-virtual void documentRecuiredForLandLoan(){}
+Loan(string bankNames,double rate){
+bankNameLoan=bankNames;
+interestRate=rate;
+}
+
+string getBankName(){
+return bankNameLoan;
+ }
+
+virtual double getInterestRate(){
+return interestRate;
+}
+
+virtual string getAvalilableLoans(){}
+virtual string documentRecuiredForGoldLoan(){}
+virtual string documentRecuiredForPersonnelLoan(){}
+virtual string documentRecuiredForLandLoan(){}
 
 
 

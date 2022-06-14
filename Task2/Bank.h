@@ -9,11 +9,15 @@ public:
  string establishedDate;
  string bankType;
  string branchName;
-virtual string getName(){}
+virtual string getName(){
+return bankName;
+}
+
 virtual string getEstablishedDate(){}
 virtual string getBankType(){}
- void getInfo(){
-cout<<bankName<<"   "<<establishedDate<<"  "<<bankType<<"    "<<branchName<<endl;
+
+void getInfo(){
+cout<<"Bank Name: "<<bankName<<endl<<"Bank established date:  "<<establishedDate<<endl<<"Bank type: "<<bankType<<endl<<"branch Name:  "<<branchName<<endl;
 }
 virtual string getBranchName(){}
 

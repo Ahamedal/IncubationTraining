@@ -7,7 +7,7 @@ class SBI:public Bank,public Loan{
 
 public:
 
-SBI(string bank,string date,string type,string branch,double rate){
+SBI(string bank,string date,string type,string branch,double rate):Loan(bank,rate){
 bankName=bank;
 establishedDate=date;
 bankType=type;

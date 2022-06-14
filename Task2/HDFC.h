@@ -6,7 +6,7 @@ class HDFC:public Bank,public Loan{
 //private:
 
 public:
-HDFC(string bank,string date,string type,string branch,double rate){
+HDFC(string bank,string date,string type,string branch,double rate):Loan(bank,rate){
 bankName=bank;
 establishedDate=date;
 bankType=type;
@@ -30,24 +30,30 @@ return branchName;
 
 
 
-void getAvailableLoans(){
-cout<<"Goldloan , Personel Loan ,Land loan";
+string getAvailableLoans(){
+string str="Goldloan , Personel Loan ,Land loan";
+return str;
 
 }
 double getInterestRate(){
 return interestRate;
 }
 
- void documentRequiredForGoldLoan(){
- cout<<"AadhaarCard , Pancard , Gold Document";
+ string documentRequiredForGoldLoan(){
+ string str2="AadhaarCard , Pancard , Gold Document";
+ return str2;
+
 
  }
- void documentRequiredForPersonnelLoan(){
- cout<<"AadhaarCard , Pancard , Personnel Document";
+ string documentRequiredForPersonnelLoan(){
+ string str="AadhaarCard , Pancard , Personnel Document";
+ return str;
 
  }
- void documnetRequiredForLandLoan(){
- cout<<"AadhaarCard , Pancard , Land Documnet";
+ string documnetRequiredForLandLoan(){
+ string str="AadhaarCard , Pancard , Land Documnet";
+ return str;
+
  }
 };
 

@@ -12,23 +12,26 @@ using namespace std;
 int main()
 {
     //cout << "Hello world!" << endl;
-    HDFC h("HDFC","1-2-2000","Priv","Ramnad",11);
+    HDFC h("HDFC","1-2-2000","Priv","Ramnad",0.1);
 
-    SBI s("SBI","1-2-1999","Public","Karaikudi",20);
+    SBI s("SBI","1-2-1999","Public","Karaikudi",2.3);
 
-    ICICI i("ICICI","1-2-2001","public","Chennai",5);
+    ICICI i("ICICI","1-2-2001","public","Chennai",1);
 
 
     Broker b;
 
- Loan mulBank[3]={h,s,i};
-cout<<b.compareBanks(h,s).getName()<<" has lowest Bank interestRate"<<endl;
-cout<<b.compareBanks(h,s,i).getName()<<" has lowest Bank interestRate";
 
+cout<<b.compareBanks(h,s).getBankName()<<" has lowest Bank interestRate"<<endl;
+cout<<b.compareBanks(h,s,i).getBankName()<<" has lowest Bank interestRate"<<endl;
+
+Loan mulBank[3]={h,s,i};
 int n=sizeof(mulBank)/sizeof(mulBank[0]);
 
-   cout<< b.compareBanks(mulBank,n).getName()<<" has lowest interest rate";
+   cout<< b.compareBanks(mulBank,n).getBankName()<<" has lowest interest rate";
    b.display(h);
-   b.multipleDisplay(mulBank,n);
+   Bank arr[3]={h,s,i};
+   int n1=sizeof(arr)/sizeof(arr[0]);
+   b.multipleDisplay(arr,n1);
     return 0;
 }

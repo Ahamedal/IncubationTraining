@@ -7,7 +7,7 @@ class ICICI:public Bank,public Loan{
 
 
 public:
-ICICI(string bank,string date,string type,string branch,double rate){
+ICICI(string bank,string date,string type,string branch,double rate):Loan(bank,rate){
 bankName=bank;
 establishedDate=date;
 bankType=type;
