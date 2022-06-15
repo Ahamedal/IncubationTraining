@@ -8,19 +8,17 @@ int* top=NULL;
 int* width=NULL;
 int* height=NULL;
 int* area=NULL;
-int a;
-int b;
-int c;
-int d;
-int t;
+
+
 
 
 public:
 Rectangle(){
-left=0;
-top=0;
-width=0;
-height=0;
+left=new int(0);
+top=new int(0);
+width=new int(0);
+height=new int(0);
+
 }
 
 Rectangle(int wid,int hgt){
@@ -47,30 +45,30 @@ height=new int(hgtt);
 
 
 Rectangle(float leftVal,float topVal,float widtVal,float heightVal){
-a=round(leftVal);
-left=new int(a);
 
-b=round(topVal);
-top=new int(b);
+left=new int(round(leftVal));
 
-c=round(widtVal);
-width=new int(c);
 
-d=round(heightVal);
-height=new int(d);
+top=new int(round(topVal));
+
+
+width=new int(round(widtVal));
+
+
+height=new int(round(heightVal));
 
 
 }
 
 Rectangle(const Rectangle &r){
 
-left=&*r.left;
-top=&*r.top;
-width=&*r.width;
-height=&*r.height;
-t=*height * *width;
-area=&t;
-cout<<t;
+left=new int(*r.left);
+top=new int(*r.top);
+width=new int(*r.width);
+height=new int(*r.height);
+
+area=new int(*height * *width);
+cout<<*area;
 }
 
 
@@ -113,7 +111,7 @@ delete left;
 delete top;
 delete width;
 delete height;
-
+delete area;
 
 
 }
