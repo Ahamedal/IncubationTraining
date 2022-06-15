@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1655280974 source:/home/ahmed-inc1497/Downloads/Task5/main.cpp
+	<iostream>
+	"Equate.h"
+
+1655280713 /home/ahmed-inc1497/Downloads/Task5/MathEquation.h
+
+1655281084 /home/ahmed-inc1497/Downloads/Task5/Equate.h
+	"MathEquation.h"
+
