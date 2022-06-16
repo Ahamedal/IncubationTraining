@@ -6,16 +6,18 @@ using namespace std;
 class Bike:public Vehicle
 {
     //ctor
-    private:
+private:
     int weight;
     string bikeType;
-    public:
-    int getNoOfWheels(){
-    return 2;
+public:
+    int getNoOfWheels()
+    {
+        return 2;
     }
-    Bike(string vType,string br,string modl,string colr,int mil,double pri,int bWeight,string bType):Vehicle(vType,br,modl,colr,mil,pri){
-    weight=bWeight;
-    bikeType=bType;
+    Bike(string vType,string br,string modl,string colr,int mil,double pri,int bWeight,string bType):Vehicle(vType,br,modl,colr,mil,pri)
+    {
+        weight=bWeight;
+        bikeType=bType;
     }
 
 
