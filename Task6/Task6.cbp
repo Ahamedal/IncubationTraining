@@ -33,6 +33,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="AgeNotWithinRangeException.h" />
+		<Unit filename="Check.h" />
 		<Unit filename="ExceptionHandling.h" />
 		<Unit filename="InvalidCourseException.h" />
 		<Unit filename="MyException.h" />

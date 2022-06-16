@@ -7,8 +7,8 @@ int operation(int a,int b){
    int c;
 
    if(b==0){
-   throw MyException("Invalid operation");
-
+   MyException m;
+   throw m;
    }
    c=a/b;
    return c;
@@ -34,14 +34,14 @@ try{
 s.at(ind);
 }
 catch(exception e){
-throw("Index is valid");
+throw("Index is Invalid");
 }
 
 }
 void invalidArrayIndex(int arr[],int size1,int ind){
 
 if(ind<0||ind>=size1)
-throw("Array Index is valid");
+throw("Array Index is Invalid");
 }
 };
 

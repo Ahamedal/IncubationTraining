@@ -1,13 +1,36 @@
 # depslib dependency file v1.0
-1655304642 source:/home/ahmed-inc1497/Downloads/Task6/main.cpp
+1655364255 source:/home/ahmed-inc1497/Downloads/Task6/main.cpp
 	<iostream>
 	"ExceptionHandling.h"
+	"AgeNotWithinRangeException.h"
 	"InvalidCourseException.h"
+	"Check.h"
+	"Student.h"
+	<vector>
 
-1655304840 /home/ahmed-inc1497/Downloads/Task6/ExceptionHandling.h
+1655363019 /home/ahmed-inc1497/Downloads/Task6/ExceptionHandling.h
 	"MyException.h"
 
-1655305151 /home/ahmed-inc1497/Downloads/Task6/MyException.h
+1655362372 /home/ahmed-inc1497/Downloads/Task6/MyException.h
+	<exception>
 
-1655304653 /home/ahmed-inc1497/Downloads/Task6/InvalidCourseException.h
+1655305698 /home/ahmed-inc1497/Downloads/Task6/InvalidCourseException.h
+	<exception>
+
+1655305780 /home/ahmed-inc1497/Downloads/Task6/AgeNotWithinRangeException.h
+	<exception>
+
+1655365030 /home/ahmed-inc1497/Downloads/Task6/Check.h
+	<vector>
+	<algorithm>
+	<cctype>
+	"AgeNotWithinRangeException.h"
+	"NameNotValidException.h"
+	"InvalidCourseException.h"
+
+1655305912 /home/ahmed-inc1497/Downloads/Task6/NameNotValidException.h
+	<exception>
+
+1655362760 /home/ahmed-inc1497/Downloads/Task6/Student.h
+	"AgeNotWithinRangeException.h"
 

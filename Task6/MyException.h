@@ -7,7 +7,7 @@ public:
 
 const char* what() {
 
-return " not valid ";
+return "Invalid operation";
 
 }
 
