@@ -5,30 +5,47 @@
 
 
 
-namespace Equate{
+namespace Equate
+{
 
-class inside{
+class inside
+{
 
 public:
-int square(int x){
+    int square(int x)
+    {
 
-return Equation::Maths::square(x);
+        return Equation::Maths::square(x);
 
 
-}
+    }
 
 
 };
 
-namespace Eq{
 
-int cube(int x){
+namespace Eq
+{
 
-return x*x*x;
+int cube(int x)
+{
+
+    return x*x*x;
 
 }
 
 }
+inline namespace Equal
+{
+
+int cube(int x)
+{
+
+return x*x;
+
+}
+}
+
 
 
 

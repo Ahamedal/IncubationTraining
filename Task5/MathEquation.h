@@ -2,20 +2,23 @@
 #define MATHEQUATION_H_INCLUDED
 
 
-namespace Equation{
+namespace Equation
+{
 
 
-class Maths{
+class Maths
+{
 
 public:
 
-static int square(int x){
+    static int square(int x)
+    {
 
-return x*x;
+        return x*x;
 
 
 
-}
+    }
 
 
 

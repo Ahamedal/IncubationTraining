@@ -7,15 +7,18 @@ using namespace std;
 using namespace Equate;
 
 
-namespace veryLargeNamespaceName{
+namespace veryLargeNamespaceName
+{
 
 int x;
 
-namespace nestedNamespace{
+namespace nestedNamespace
+{
 
-int getX(){
+int getX()
+{
 
-return x;
+    return x;
 }
 
 
@@ -29,12 +32,13 @@ namespace nested=smallName::nestedNamespace;
 
 int main()
 {
-  //  cout << "Hello world!" << endl;
-  inside i;
+    //  cout << "Hello world!" << endl;
+    inside i;
     cout<<i.square(2);
     cout<<Eq::cube(3);
     smallName::x=10;
-   // cout<<smallName::nestedNamespace::getX();
+    cout<<Equate::cube(3);
+    cout<<smallName::nestedNamespace::getX();
     cout<<nested::getX();
     return 0;
 }
