@@ -5,15 +5,15 @@ using namespace std;
 #include "Rectangle.h"
 int main()
 {
-int l,t,w,h;
-cout<<"Enter left side value of rectangle";
-cin>>l;
-cout<<"Enter top side value of rectangle";
-cin>>t;
-cout<<"Enter width of rectangle";
-cin>>w;
-cout<<"Enter height of rectangle";
-cin>>h;
+    int l,t,w,h;
+    cout<<"Enter left side value of rectangle";
+    cin>>l;
+    cout<<"Enter top side value of rectangle";
+    cin>>t;
+    cout<<"Enter width of rectangle";
+    cin>>w;
+    cout<<"Enter height of rectangle";
+    cin>>h;
     Rectangle r6;
     r6.printValues();
     Rectangle r(l,t,w,h);
