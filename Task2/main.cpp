@@ -22,16 +22,16 @@ int main()
     Broker b;
 
 
-cout<<b.compareBanks(h,s).getBankName()<<" has lowest Bank interestRate"<<endl;
-cout<<b.compareBanks(h,s,i).getBankName()<<" has lowest Bank interestRate"<<endl;
+    cout<<b.compareBanks(h,s).getBankName()<<" has lowest Bank interestRate"<<endl;
+    cout<<b.compareBanks(h,s,i).getBankName()<<" has lowest Bank interestRate"<<endl;
 
-Loan mulBank[3]={h,s,i};
-int n=sizeof(mulBank)/sizeof(mulBank[0]);
+    Loan mulBank[3]= {h,s,i};
+    int n=sizeof(mulBank)/sizeof(mulBank[0]);
 
-   cout<< b.compareBanks(mulBank,n).getBankName()<<" has lowest interest rate";
-   b.display(h);
-   Bank arr[3]={h,s,i};
-   int n1=sizeof(arr)/sizeof(arr[0]);
-   b.multipleDisplay(arr,n1);
+    cout<< b.compareBanks(mulBank,n).getBankName()<<" has lowest interest rate";
+    b.display(h);
+    Bank arr[3]= {h,s,i};
+    int n1=sizeof(arr)/sizeof(arr[0]);
+    b.multipleDisplay(arr,n1);
     return 0;
 }

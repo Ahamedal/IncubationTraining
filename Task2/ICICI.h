@@ -3,54 +3,65 @@
 #include "Bank.h"
 #include "Loan.h"
 
-class ICICI:public Bank,public Loan{
+class ICICI:public Bank,public Loan
+{
 
 
 public:
-ICICI(string bank,string date,string type,string branch,double rate):Loan(bank,rate){
-bankName=bank;
-establishedDate=date;
-bankType=type;
-interestRate=rate;
+    ICICI(string bank,string date,string type,string branch,double rate):Loan(bank,rate)
+    {
+        bankName=bank;
+        establishedDate=date;
+        bankType=type;
+        interestRate=rate;
 
-branchName=branch;
-}
-string getName(){
-return bankName;
-}
-string getEstablishedDate(){
-return establishedDate;
-}
+        branchName=branch;
+    }
+    string getName()
+    {
+        return bankName;
+    }
+    string getEstablishedDate()
+    {
+        return establishedDate;
+    }
 
-string getBankType(){
-return bankType;
-}
+    string getBankType()
+    {
+        return bankType;
+    }
 
-string getBranchName(){
-return branchName;
-}
+    string getBranchName()
+    {
+        return branchName;
+    }
 
 
 
-void getAvailableLoans(){
-cout<<"Goldloan , Personel Loan ,Land loan";
+    void getAvailableLoans()
+    {
+        cout<<"Goldloan , Personel Loan ,Land loan";
 
-}
-double getInterestRate(){
-return interestRate;
-}
+    }
+    double getInterestRate()
+    {
+        return interestRate;
+    }
 
- void documentRequiredForGoldLoan(){
- cout<<"AadhaarCard , Pancard , Gold Document";
+    void documentRequiredForGoldLoan()
+    {
+        cout<<"AadhaarCard , Pancard , Gold Document";
 
- }
- void documentRequiredForPersonnelLoan(){
- cout<<"AadhaarCard , Pancard , Personnel Document";
+    }
+    void documentRequiredForPersonnelLoan()
+    {
+        cout<<"AadhaarCard , Pancard , Personnel Document";
 
- }
- void documnetRequiredForLandLoan(){
- cout<<"AadhaarCard , Pancard , Land Documnet";
- }
+    }
+    void documnetRequiredForLandLoan()
+    {
+        cout<<"AadhaarCard , Pancard , Land Documnet";
+    }
 
 };
 
