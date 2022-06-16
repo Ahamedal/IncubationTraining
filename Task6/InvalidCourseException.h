@@ -2,16 +2,18 @@
 #define INVALIDCOURSEEXCEPTION_H_INCLUDED
 #include <exception>
 
-class InvalidCourseException:public exception{
+class InvalidCourseException:public exception
+{
 
 
 public:
 
-const char* what() {
+    const char* what()
+    {
 
-return "Course is not present";
+        return "Course is not present";
 
-}
+    }
 
 
 

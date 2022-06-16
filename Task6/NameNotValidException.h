@@ -2,15 +2,17 @@
 #define NAMENOTVALIDEXCEPTION_H_INCLUDED
 #include <exception>
 
-class NameNotValidException:public exception{
+class NameNotValidException:public exception
+{
 
 public:
 
-const char* what() {
+    const char* what()
+    {
 
-return "Name is not valid ";
+        return "Name is not valid ";
 
-}
+    }
 
 
 

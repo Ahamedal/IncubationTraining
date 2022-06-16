@@ -2,49 +2,55 @@
 #define STUDENT_H_INCLUDED
 #include "AgeNotWithinRangeException.h"
 
-class Student{
+class Student
+{
 
-int rollNo;
-string name;
-int age;
-string course;
+    int rollNo;
+    string name;
+    int age;
+    string course;
 
 public:
 
-Student(int roll,string nameOfStudent,int ageOfStudent,string cours){
+    Student(int roll,string nameOfStudent,int ageOfStudent,string cours)
+    {
 
-rollNo=roll;
-name=nameOfStudent;
-age=ageOfStudent;
-course=cours;
-
-
-
-
-}
-int getRollNo(){
-
-return rollNo;
-
-}
-
-string getName(){
-
-return name;
-
-}
-
-int getAge(){
-
-return age;
+        rollNo=roll;
+        name=nameOfStudent;
+        age=ageOfStudent;
+        course=cours;
 
 
-}
-string getCourse(){
 
-return course;
 
-}
+    }
+    int getRollNo()
+    {
+
+        return rollNo;
+
+    }
+
+    string getName()
+    {
+
+        return name;
+
+    }
+
+    int getAge()
+    {
+
+        return age;
+
+
+    }
+    string getCourse()
+    {
+
+        return course;
+
+    }
 
 
 

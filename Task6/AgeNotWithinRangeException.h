@@ -2,15 +2,17 @@
 #define AGENOTWITHINRANGEEXCEPTION_H_INCLUDED
 #include <exception>
 
-class AgeNotWithinRangeException:public exception{
+class AgeNotWithinRangeException:public exception
+{
 
 public:
 
-const char* what() {
+    const char* what()
+    {
 
-return "Age is not valid (only allow between 15 to 21)";
+        return "Age is not valid (only allow between 15 to 21)";
 
-}
+    }
 
 
 
