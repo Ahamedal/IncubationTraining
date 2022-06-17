@@ -4,15 +4,14 @@
 using namespace std;
 static int l=0;
 static int sum=0;
+
 class Leader
 {
 public:
-    void countBuildings(int** mat,int* ans)
+    void countBuildings(int** mat,int* ans,bool** visited,int row,int col)
     {
-        int row=5;
-        int col=5;
-        bool visited[5][5];
-        memset(visited, 0, sizeof(visited));
+
+
 
         for(int i=0; i<row; i++)
         {
@@ -22,7 +21,7 @@ public:
                 if(mat[i][j]!=0&&!visited[i][j])
                 {
 
-                    DFS(mat,i,j,visited);
+                    DFS(mat,i,j,visited,row,col);
                     ans[l++]=sum;
 
                     //lis.add(sum);
@@ -35,7 +34,7 @@ public:
 
     }
 
-    void DFS(int** mat,int row,int col,bool visited[5][5])
+    void DFS(int** mat,int row,int col,bool** visited,int rows,int columns)
     {
 
 
@@ -47,18 +46,18 @@ public:
 
         for (int k = 0; k < 4; k++)
         {
-            if (isSafe(mat, row + rowNbr[k], col + colNbr[k], visited))
+            if (isSafe(mat, row + rowNbr[k], col + colNbr[k], visited,rows,columns))
             {
-                DFS(mat, row + rowNbr[k], col + colNbr[k], visited);
+                DFS(mat, row + rowNbr[k], col + colNbr[k], visited,rows,columns);
             }
         }
 
     }
 
-    bool isSafe(int** mat,int row,int col,bool visited[5][5])
+    bool isSafe(int** mat,int row,int col,bool** visited,int rows,int columns)
     {
 
-        if(row>=0&&row<5&&col>=0&&col<5&&(mat[row][col]!=0&&!visited[row][col]))
+        if(row>=0&&row<rows&&col>=0&&col<columns&&(mat[row][col]!=0&&!visited[row][col]))
         {
             return true;
         }
@@ -82,6 +81,7 @@ public:
         return a;
 
     }
+
 
 
 };
