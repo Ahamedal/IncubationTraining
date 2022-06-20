@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1655712059 source:/home/ahmed-inc1497/Downloads/Task7/main.cpp
+	<iostream>
+	"Controller.h"
+
+1655716964 /home/ahmed-inc1497/Downloads/Task7/Controller.h
+	<unordered_map>
+	<string>
+	"Sensors.h"
+	"TemperatureSensor.h"
+	<iostream>
+	<bits/stdc++.h>
+
+1655704225 /home/ahmed-inc1497/Downloads/Task7/Sensors.h
+
+1655706779 /home/ahmed-inc1497/Downloads/Task7/TemperatureSensor.h
+
