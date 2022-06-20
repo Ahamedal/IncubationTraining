@@ -33,9 +33,6 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="Controller.h" />
-		<Unit filename="Fan.h" />
-		<Unit filename="Light.h" />
-		<Unit filename="Sensor.h" />
 		<Unit filename="Sensors.h" />
 		<Unit filename="TemperatureSensor.h" />
 		<Unit filename="main.cpp" />
