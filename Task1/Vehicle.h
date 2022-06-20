@@ -16,6 +16,8 @@ private:
     int mileage;
     double price;
 
+    public:
+
     Vehicle(string vType,string br,string modl,string colr,int mil,double pri)
     {
         vehicleType=vType;
