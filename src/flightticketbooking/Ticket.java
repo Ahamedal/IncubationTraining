@@ -9,6 +9,7 @@ public class Ticket {
 	private int flightNumber;
 	private int bookingId;
 	private String seatClass;
+	private boolean meal;
 	Map<String,Passenger> passengers=new HashMap<>();
 	private double totalAmount;
 	
@@ -17,6 +18,13 @@ public class Ticket {
 	}
 	public void setFlightNumber(int flightNumber) {
 		this.flightNumber = flightNumber;
+	}
+	
+	public boolean isMeal() {
+		return meal;
+	}
+	public void setMeal(boolean meal) {
+		this.meal = meal;
 	}
 	public int getBookingId() {
 		return bookingId;
@@ -35,7 +43,8 @@ public class Ticket {
 		return passengers;
 	}
 	public void setPassengers(Passenger passengerss) {
-		passengers.put(passengerss.getSeatNumber(),passengerss);
+		String seatNo=passengerss.getSeatNumber();
+		passengers.put(seatNo,passengerss);
 	}
 	public double getTotalAmount() {
 		return totalAmount;

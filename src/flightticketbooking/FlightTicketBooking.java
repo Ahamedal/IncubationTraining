@@ -11,10 +11,10 @@ public class FlightTicketBooking {
 	int ticketNumber=1000;
 	Map<Integer,Flight> flights=new HashMap<>();
 	Map<Integer,Ticket> bookingTicket=new HashMap<>();
-	Map<Integer,List<Integer>> listOfTickets=new HashMap<>();
+	
 	FileLayer fl=new FileLayer();
 	
-  void initailSetUp() {
+  void initailSetUp() throws Exception {
 	  
 	  for(int i=1;i<=3;i++) {
 	  String str1=fl.readFile1(i);
@@ -31,7 +31,8 @@ public class FlightTicketBooking {
 	  }
 	  
   }
-  public List<Integer> initialSeatSetup(String str1) {
+  public List<Integer> initialSeatSetup(String str1) throws Exception{
+	  stringCheck(str1);
 	  List<Integer> list1=new ArrayList<>();
 	  String[] array=str1.split(":");
 	  String[] array1=array[1].split(",");
@@ -48,7 +49,9 @@ public class FlightTicketBooking {
 	  }
 	  return list1;
   }
-  public void setFlight(int flightNumber,Map<String,String> business,Map<String,String> economyClass) {
+  public void setFlight(int flightNumber,Map<String,String> business,Map<String,String> economyClass) throws Exception{
+	  objectCheck(business);
+	  objectCheck(economyClass);
 	  
 		  Flight flight=new Flight();
 		  flight.setFlightNumber(flightNumber);
@@ -76,10 +79,10 @@ public class FlightTicketBooking {
 		  flights.put(flight.getFlightNumber(), flight);
 	 
   }
-  public void addListOfTicket() {
-	  
-  }
-  public List<Flight> searchFlights(String source,String destination){
+  
+  public List<Flight> searchFlights(String source,String destination)throws Exception{
+	  stringCheck(source);
+	  stringCheck(destination);
 	  List<Flight> l=new ArrayList<>();
 	  Set<Integer> set=flights.keySet();
 	  for(int flightNumber:set) {
@@ -100,7 +103,8 @@ public class FlightTicketBooking {
 	  System.out.println(businessClass);
 	  System.out.println(economyClass);
   }
-  public Map<String,String> seatingArrangements(List<Integer> list) {
+  public Map<String,String> seatingArrangements(List<Integer> list)throws Exception {
+	  objectCheck(list);
 	  String left="W";
 	  String middle="A";
 	  String right="A";
@@ -145,7 +149,9 @@ public class FlightTicketBooking {
 	  }
 	  return businessClass;
   }
-  public Map<String,String> availableTickets(int flightNumber,String ticketType){
+  public Map<String,String> availableTickets(int flightNumber,String ticketType)throws Exception{
+	  checkFlightNumber(flightNumber);
+	  stringCheck(ticketType);
 	  Flight flight=flights.get(flightNumber);
 	  Map<String,String> map=new HashMap<>();
 	  if(ticketType.startsWith("B")||ticketType.startsWith("b")) {
@@ -156,7 +162,11 @@ public class FlightTicketBooking {
 	  }
 	  return map;
   }
-  public boolean checkSeat(int flightNumber,String ticketType,String seatNumber) {
+  public boolean checkSeat(int flightNumber,String ticketType,String seatNumber)throws Exception {
+	  checkFlightNumber(flightNumber);
+	  stringCheck(ticketType);
+	  stringCheck(seatNumber);
+	  
 	  Flight flight=flights.get(flightNumber);
 	
 	  if(ticketType.startsWith("B")||ticketType.startsWith("b")) {
@@ -177,17 +187,19 @@ public class FlightTicketBooking {
 	  }
 	  return false;
   }
-  public double getAmount(Passenger passenger,int flightNumber){
+  public double getAmount(Passenger passenger,int flightNumber,boolean meal,String ticketType)throws Exception{
+	  objectCheck(passenger);
+	  checkFlightNumber(flightNumber);
       double totalAmount=0;
      
-      String ticketType= passenger.getSeatType();
+      
       Flight flight=flights.get(flightNumber);
       if(ticketType.startsWith("e")||ticketType.startsWith("E")){
           totalAmount+=flight.getEconomyTicketPrice();
       }else if(ticketType.startsWith("b")||ticketType.startsWith("B")){
           totalAmount+=flight.getBusinessTicketPrice();
       }
-      if(passenger.isMeal()){
+      if(meal){
           totalAmount+=flight.getMealPrice();
       }
       if(passenger.getSeatType().equals("W")||passenger.getSeatType().equals("A")) {
@@ -196,18 +208,38 @@ public class FlightTicketBooking {
       
       return totalAmount;
   }
-  public String bookTicket(List<Passenger> passengers,int flightNo,String ticketType) {
+  public String getSeatType(int flightNumber,String seatNumber,String seatClass)throws Exception {
+	  checkFlightNumber(flightNumber);
+	  stringCheck(seatNumber);
+	  stringCheck(seatClass);
+	  Flight flight=flights.get(flightNumber);
+	  if(seatClass.startsWith("B")||seatClass.startsWith("b")) {
+		  Map<String,String> busi=flight.getBusinessClassTicket();
+		  return busi.get(seatNumber);
+	  }
+	  else if(seatClass.startsWith("E")||seatClass.startsWith("e")) {
+		  Map<String,String> economy=flight.getEconomyClassTicket();
+		  return economy.get(seatNumber);
+	  }
+	  return null;
+	  
+  }
+  public String bookTicket(List<Passenger> passengers,int flightNo,String ticketType,boolean meal)throws Exception {
+	  objectCheck(passengers);
+	  checkFlightNumber(flightNo);
+	  stringCheck(ticketType);
 	  Ticket ticket=new Ticket();
 	  ticket.setFlightNumber(flightNo);
 	  for(Passenger passenger:passengers) {
-		 double amount=getAmount(passenger,flightNo);
+		 double amount=getAmount(passenger,flightNo,meal,ticketType);
 		 passenger.setAmount(amount);
 		 ticket.setTotalAmount(amount);
 		 ticket.setPassengers(passenger);
-		 bookingSeat(passenger.getSeatNumber(),flightNo,ticketType);
+		
 	  }
 	  ticket.setBookingId(++ticketNumber);
 	  ticket.setSeatClass(ticketType);
+	  ticket.setMeal(meal);
 	  bookTicket(ticket);
 	  surgePricing(flightNo);
 	  String str="Your ticket number is"+ticketNumber;
@@ -215,16 +247,29 @@ public class FlightTicketBooking {
 	  return str;
 	  
   }
-  public void surgePricing(int flightNumber) {
+  public void surgePricing(int flightNumber)throws Exception {
+	  checkFlightNumber(flightNumber);
 	  Flight flight=flights.get(flightNumber);
 	  double k=flight.getSurgePrice();
-	  flight.setBusinessTicketPrice(flight.getBusinessTicketPrice()+k);
-	  flight.setEconomyTicketPrice(flight.getEconomyTicketPrice()+(2*k));
+	  flight.setBusinessTicketPrice(flight.getBusinessTicketPrice()+(2*k));
+	  flight.setEconomyTicketPrice(flight.getEconomyTicketPrice()+(k));
   }
-  public void bookTicket(Ticket ticket) {
+  public void surgePricing2(int flightNumber) throws Exception{
+	  checkFlightNumber(flightNumber);
+	  Flight flight=flights.get(flightNumber);
+	  double k=flight.getSurgePrice();
+	  flight.setBusinessTicketPrice(flight.getBusinessTicketPrice()-(2*k));
+	  flight.setEconomyTicketPrice(flight.getEconomyTicketPrice()-(k));
+  }
+  public void bookTicket(Ticket ticket)throws Exception {
+	  
+	  objectCheck(ticket);
 	  bookingTicket.put(ticket.getBookingId(), ticket);
   }
-  public void bookingSeat(String seat,int flightNumber,String ticketType) {
+  public void bookingSeat(String seat,int flightNumber,String ticketType) throws Exception{
+	  checkFlightNumber(flightNumber);
+	  stringCheck(seat);
+	  stringCheck(ticketType);
 	  Flight flight=flights.get(flightNumber);
 	  if(ticketType.startsWith("B")||ticketType.startsWith("b")) {
 		 Map<String,String> map= flight.getBusinessClassTicket();
@@ -235,37 +280,51 @@ public class FlightTicketBooking {
 			 map.remove(seat);
 	  }
   }
-  public String cancelTicket(int flightNumber,int ticketNumber,String seatNumber) {
+  public String cancelTicket(int flightNumber,int ticketNumber,String seatNumber)throws Exception {
+	  checkFlightNumber(flightNumber);
+	  checkTicketNumber(ticketNumber);
+	  stringCheck(seatNumber);
 	  double refundAmount=0;
 	  Ticket ticket=bookingTicket.get(ticketNumber);
 	  if(ticket==null) {
 		  return "Your ticket Number is not found";
 	  }
 	  Map<String,Passenger> passengers=ticket.getPassengers();
-	  if(!passengers.containsKey(seatNumber)) {
-		  return "Seat Number is not exist";
-	  }
+	 
 	  if(seatNumber.equals("0")) {
+		  
 		 Set<String> set= passengers.keySet();
 		 for(String seat:set) {
+			 if(!passengers.containsKey(seat)) {
+				  return "Seat Number is not exist";
+			  }
 			  Passenger passenger=passengers.get(seat);
-			  addTicket(flightNumber,passenger,ticket.getSeatClass());
+			  addTicket(flightNumber,passenger,passenger.getSeatType());
 			  refundAmount+=cancelTicket(passenger);
-			  passengers.remove(seat);
+			  surgePricing2(flightNumber);
+			  
+			
 		 }
+		 removePassengers(passengers);
 		 ticket.setTotalAmount(ticket.getTotalAmount()-refundAmount);
 	  }
 	  else {
+		 
 	  Passenger passenger=passengers.get(seatNumber);
 	  addTicket(flightNumber,passenger,ticket.getSeatClass());
 	  refundAmount+=cancelTicket(passenger);
 	  passengers.remove(seatNumber);
+	  surgePricing2(flightNumber);
 	  ticket.setTotalAmount(ticket.getTotalAmount()-refundAmount);
 	  }
 	  return "Cancel Successfully,Your refund amount is"+refundAmount;
 	  
   }
-  public void addTicket(int flightNumber,Passenger passenger,String ticketType) {
+
+  public void addTicket(int flightNumber,Passenger passenger,String ticketType) throws Exception{
+	  checkFlightNumber(flightNumber);
+	  objectCheck(passenger);
+	  stringCheck(ticketType);
 	  Flight flight=flights.get(flightNumber);
 	  String seatNumber=passenger.getSeatNumber();
 	  String seatType=passenger.getSeatType();
@@ -278,7 +337,8 @@ public class FlightTicketBooking {
 		  map.put(seatNumber, seatType);
 	  }
   }
-  public double cancelTicket(Passenger passenger) {
+  public double cancelTicket(Passenger passenger)throws Exception {
+	  objectCheck(passenger);
 	 double amount= passenger.getAmount();
 	 amount-=200;
 	 return amount;
@@ -288,6 +348,7 @@ public class FlightTicketBooking {
 	  Set<Integer> set=flights.keySet();
 	  for(int flightNumber:set) {
 		  Flight flight=flights.get(flightNumber);
+		  System.out.println("Flight number is : "+flightNumber);
 		  System.out.println("Business Tickets are :");
 		  Map<String,String> business=flight.getBusinessClassTicket();
 		  if(business.isEmpty()) {
@@ -307,50 +368,86 @@ public class FlightTicketBooking {
 		  
 	  }
   }
-//  public Map<String,String> seatingArrangementsForEconomy(List<Integer> list) {
-//	  String left="W";
-//	  String middle="A";
-//	  String right="A";
-//	  
-//	  Map<String,String> busClass=new HashMap<>();
-//	  
-//	  for(int i=1;i<=list.get(3);i++) {
-//		  int column=65;
-//		  char c=(char) column;
-//		  for(int j=0;j<list.get(0);j++) {
-//			  if(j==list.get(0)-1) {
-//				  left="A";
-//			  }
-//			 c=(char) column;
-//			 String str=""+i+"_"+c;
-//			 businessClass.put(str, left);
-//			 left="M";
-//			 column++;
-//			 
-//		  }
-//		  
-//		  for(int k=0;k<list.get(1);k++) {
-//			  if(k==list.get(1)-1) {
-//				  middle="A";
-//			  }
-//			     c=(char) column;
-//				 String str=""+i+"_"+c;
-//				 businessClass.put(str, middle);
-//				 middle="M";
-//				 column++;
-//		  }
-//		  for(int l=0;l<list.get(2);l++) {
-//			  if(l==list.get(2)-1) {
-//				  right="W";
-//			  }
-//			     c=(char) column;
-//				 String str=""+i+"_"+c;
-//				 businessClass.put(str, right);
-//				 right="M";
-//				 column++;
-//		  }
-//	  }
-//	  return business
-//  }
+  public String[] getNoOfFlightsAndName() {
+	  return fl.getNoOfFlightsAndName();
+  }
+  public void printSeatNumbersForMealForBusiness(int flightNumber){
+	  
+	Set<Integer> set=bookingTicket.keySet();
+	for(int bookingId:set) {
+		Ticket ticket=bookingTicket.get(bookingId);
+		if(ticket.getFlightNumber()==flightNumber&&ticket.isMeal()&&ticket.getSeatClass().equals("Business")) {
+			Map<String,Passenger> map=ticket.getPassengers();
+			if(map.keySet().size()==0) {
+				System.out.println("No meals");
+			}
+			else {
+			System.out.println(map.keySet());
+			}
+			
+		}
+	}
+	
+  }
+  public void printSeatNumbersForMealForEconomy(int flightNumber){
+		Set<Integer> set=bookingTicket.keySet();
+		for(int bookingId:set) {
+			Ticket ticket=bookingTicket.get(bookingId);
+			if(ticket.getFlightNumber()==flightNumber&&ticket.isMeal()&&ticket.getSeatClass().equals("Economy")) {
+				Map<String,Passenger> map=ticket.getPassengers();
+				
+				if(map.keySet().size()==0) {
+					System.out.println("No meals");	
+				}
+				else {
+			System.out.println(map.keySet());
+				}
+				
+				
+				
+			}
+		}
+	
+	  }
+  public void printIndividualAndFlightSummary(int bookingId) throws Exception{
+	  checkTicketNumber(bookingId);
+	 Ticket ticket= bookingTicket.get(bookingId);
+	 boolean meal=ticket.isMeal();
+	 Map<String,Passenger> passengers=ticket.getPassengers();
+	  Set<String> seats=passengers.keySet();
+	  for(String seatNumber:seats) {
+		 System.out.print(passengers.get(seatNumber));
+		 if(meal) {
+			 System.out.println("Meal preference = need");
+		 }
+		 else {
+			 System.out.println("Meal preference = don't need");
+		 }
+	  }
+	  System.out.println("Flight Summary:");
+	  int flightNumber=ticket.getFlightNumber();
+	  System.out.println(flights.get(flightNumber));
+  }
+  private void stringCheck(String str1) throws Exception{
+	  if(str1==null||str1.isEmpty()) {
+		  throw new Exception("String cannot be null or empty");
+	  }
+  }
+  private void objectCheck(Object obj)throws Exception{
+	  if(obj==null) {
+		  throw new Exception(obj+"Cannot be null");
+	  }
+  }
+  
+  private void checkFlightNumber(int flightNumber)throws Exception {
+	  if(flights.get(flightNumber)==null) {
+		  throw new Exception("Flight number is not valid");
+	  }
+  }
+  private void checkTicketNumber(int ticketNumber)throws Exception {
+	  if(bookingTicket.get(ticketNumber)==null) {
+		  throw new Exception("Ticket number is notvalid");
+	  }
+  }
 
 }

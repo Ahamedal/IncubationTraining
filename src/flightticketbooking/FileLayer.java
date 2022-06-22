@@ -12,10 +12,11 @@ public class FileLayer {
 	String file1="Flight-A112-Chennai-Mumbai.txt";
 	String file2="Flight-A113-Chennai-Kolkata.txt";
 	String file3="Flight-A114-Chennai-Delhi.txt";
-
+	
+	File f1=new File(path);
 	void createDirectory() {
 		
-		File f1=new File(path);
+		
 		boolean boo=f1.mkdir();
 		
 		if(boo) {
@@ -27,21 +28,24 @@ public class FileLayer {
 		
 	}
 	void createFile() {
-	  try(FileWriter fw=new FileWriter(path+"Flights.txt");){
-		  fw.write("Flight-A1-Chennai-Mumbai\n");
+	  try{
+		  
 		  createAndWriteFile(file1);
-		  fw.write("Flight-A2-Chennai-Kolkata\n");
+		  
 		  createAndWriteFile(file2);
-		  fw.write("Flight-A3-Chennai-Delhi");
+		  
 		  createAndWriteFile(file3);
 		  
+		 
 		  
-	  } catch (IOException e) {
+		  
+	  } catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	}
 	void createAndWriteFile(String path1) {
+		
 		try(FileWriter fw=new FileWriter(path+path1);){
 			fw.write("Business:{2,3,2},1\n");
 			fw.write("Economy:{3,4,4},1");
@@ -49,6 +53,8 @@ public class FileLayer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	
 	}
 	String readFile1(int k) {
 		if(k==1) {
@@ -160,6 +166,10 @@ public class FileLayer {
 		}
 		return "";
 	
+	}
+	public String[] getNoOfFlightsAndName() {
+		String[] ar=f1.list();
+		return ar;
 	}
 	
 }

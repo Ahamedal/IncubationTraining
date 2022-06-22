@@ -6,7 +6,6 @@ public class Passenger {
 	private String address;
 	private String seatNumber;
 	private String seatType;
-	private boolean meal;
 	private double amount;
 	
 	public String getName() {
@@ -33,17 +32,17 @@ public class Passenger {
 	public void setSeatType(String seatType) {
 		this.seatType = seatType;
 	}
-	public boolean isMeal() {
-		return meal;
-	}
-	public void setMeal(boolean meal) {
-		this.meal = meal;
-	}
+	
 	public double getAmount() {
 		return amount;
 	}
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+	@Override
+	public String toString() {
+		return "[name=" + name + ", address=" + address + ", seatNumber=" + seatNumber + ", seatType="
+				+ seatType + "]";
 	}
 	
 	
