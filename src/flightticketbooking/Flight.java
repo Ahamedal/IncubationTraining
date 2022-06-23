@@ -12,7 +12,6 @@ public class Flight {
 	private double economyTicketPrice;
 	private String source;
 	private String destination;
-	private boolean businessClassAlone=false;
 	private int mealPrice=200;
 	
 	public String getFlightName() {

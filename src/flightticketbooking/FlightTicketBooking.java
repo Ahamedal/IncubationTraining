@@ -294,19 +294,22 @@ public class FlightTicketBooking {
 	  if(seatNumber.equals("0")) {
 		  
 		 Set<String> set= passengers.keySet();
-		 for(String seat:set) {
+		 List<String> li=new ArrayList<>();
+		 li.addAll(set);
+		 for(String seat:li) {
 			 if(!passengers.containsKey(seat)) {
 				  return "Seat Number is not exist";
 			  }
 			  Passenger passenger=passengers.get(seat);
-			  addTicket(flightNumber,passenger,passenger.getSeatType());
+			  addTicket(flightNumber,passenger,ticket.getSeatClass());
 			  refundAmount+=cancelTicket(passenger);
 			  surgePricing2(flightNumber);
-			  
+			  passengers.remove(seat);
+			  ticket.setTotalAmount(ticket.getTotalAmount()-refundAmount);
 			
 		 }
-		 removePassengers(passengers);
-		 ticket.setTotalAmount(ticket.getTotalAmount()-refundAmount);
+		
+		 
 	  }
 	  else {
 		 
@@ -320,7 +323,7 @@ public class FlightTicketBooking {
 	  return "Cancel Successfully,Your refund amount is"+refundAmount;
 	  
   }
-
+ 
   public void addTicket(int flightNumber,Passenger passenger,String ticketType) throws Exception{
 	  checkFlightNumber(flightNumber);
 	  objectCheck(passenger);

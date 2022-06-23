@@ -1,7 +1,7 @@
 package flightticketbooking;
 
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 public class Ticket {
@@ -10,7 +10,7 @@ public class Ticket {
 	private int bookingId;
 	private String seatClass;
 	private boolean meal;
-	Map<String,Passenger> passengers=new HashMap<>();
+	private Map<String,Passenger> passengers=new HashMap<>();
 	private double totalAmount;
 	
 	public int getFlightNumber() {
