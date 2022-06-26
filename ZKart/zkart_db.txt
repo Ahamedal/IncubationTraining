@@ -1,0 +1,3 @@
+ProductId		Category		Brand			Model			Price			Stock
+1			Mobile			Apple			6S			60000			10
+2			Laptop			HP			G			12000			5
