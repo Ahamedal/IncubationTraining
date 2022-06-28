@@ -1,13 +1,14 @@
 package calltaxibooking;
 
-import java.util.Date;
 
 public class TaxiHistory {
  private int bookingId;
  private int customerId;
  private char pickUpPoint;
  private char dropPoint;
- private long pickUpTime;
+ private float pickUpTime;
+ private float dropTime;
+ private int bookingType;
  private int amount;
 public int getBookingId() {
 	return bookingId;
@@ -33,13 +34,28 @@ public char getDropPoint() {
 public void setDropPoint(char dropPoint) {
 	this.dropPoint = dropPoint;
 }
-public long getPickUpTime() {
+
+
+
+public float getPickUpTime() {
 	return pickUpTime;
 }
-public void setPickUpTime(long pickUpTime) {
+public void setPickUpTime(float pickUpTime) {
 	this.pickUpTime = pickUpTime;
 }
+public int getBookingType() {
+	return bookingType;
+}
+public void setBookingType(int bookingType) {
+	this.bookingType = bookingType;
+}
 
+public float getDropTime() {
+	return dropTime;
+}
+public void setDropTime(float dropTime) {
+	this.dropTime = dropTime;
+}
 public int getAmount() {
 	return amount;
 }
@@ -48,9 +64,9 @@ public void setAmount(int amount) {
 }
 @Override
 public String toString() {
-	Date da=new Date(pickUpTime);
+	
 	return "[bookingId=" + bookingId + ", customerId=" + customerId + ", pickUpPoint=" + pickUpPoint
-			+ ", dropPoint=" + dropPoint + ", pickUpTime=" + da + ", amount=" +amount+"]";
+			+ ", dropPoint=" + dropPoint + ", pickUpTime=" +pickUpTime + ", amount=" +amount+"]";
 }
  
  

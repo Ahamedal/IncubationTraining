@@ -1,9 +1,14 @@
 package calltaxibooking;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class CallTaxiBooking {
@@ -25,13 +30,13 @@ public class CallTaxiBooking {
 	  taxDetails.setTaxiNo(++taxiNo);
 	  taxi.add(taxDetails);
   }
-  public String taxiBooking(char pickUpPoint,char dropPoint,long pickUpTime,int customerId) {
+  public String taxiBooking(char pickUpPoint,char dropPoint,float pickUpTime,float dropTime,int customerId,int bookingType,int amount) {
 	  if(pickUpPoint<'A'||pickUpPoint>'F'||dropPoint<'A'||dropPoint>'F') {
 		  return "Not Available";
 	  }
 	  List<Taxi> availableTaxi=new ArrayList<>();
 	  for(int i=0;i<taxi.size();i++) {
-		  if(taxi.get(i).isAvailable()&&availableTimeForPickUp(pickUpPoint,pickUpTime,taxi.get(i))){
+		  if(availableTimeForPickUp(pickUpPoint,pickUpTime,taxi.get(i))){
 			  availableTaxi.add(taxi.get(i));
 		  }
 	  }
@@ -39,14 +44,13 @@ public class CallTaxiBooking {
 		  return "All taxi Busy,Booking Rejected";
 	  }
 	  Taxi nearestTaxi=nearestTaxi(availableTaxi,pickUpPoint);
-	  nearestTaxi.setAvailable(false);
+	  nearestTaxi.setFreeTime(dropTime);
 	  nearestTaxi.setCurrentPosition(dropPoint);
-	  int amount=payment(pickUpPoint,dropPoint);
 	  double earned=nearestTaxi.getAmountEarned();
 	  nearestTaxi.setAmountEarned(earned+amount);
-	  TaxiHistory taxiHistory=historySetter(pickUpPoint,dropPoint,pickUpTime,amount,customerId);
+	  TaxiHistory taxiHistory=historySetter(pickUpPoint,dropPoint,pickUpTime,dropTime,amount,customerId,bookingType);
 	  addHistory(taxiHistory,nearestTaxi);
-	  return "Booked Successfully\nTaxi can be alotted";
+	  return "Booked Successfully\nalotted Taxi is Taxi_"+nearestTaxi.getTaxiNo()+"\n";
 	  
   }
   public void addHistory(TaxiHistory taxiHistor,Taxi nearestTaxi) {
@@ -57,31 +61,33 @@ public class CallTaxiBooking {
 	  }
 	  lis.add(taxiHistor);
   }
-  public TaxiHistory historySetter(char pickUpPoint,char dropPoint,long pickUpTime,int amount,int custoerId) {
+  public TaxiHistory historySetter(char pickUpPoint,char dropPoint,float pickUpTime,float dropTime,int amount,int custoerId,int bookingType) {
 	  TaxiHistory taxiHistory=new TaxiHistory();
 	  taxiHistory.setBookingId(custoerId);
 	  taxiHistory.setCustomerId(custoerId);
 	  taxiHistory.setPickUpPoint(pickUpPoint);
 	  taxiHistory.setDropPoint(dropPoint);
+	  taxiHistory.setBookingType(bookingType);
 	  taxiHistory.setAmount(amount);
-	  taxiHistory.setPickUpTime(System.currentTimeMillis()+pickUpTime);
+	  taxiHistory.setPickUpTime(pickUpTime);
+	  taxiHistory.setDropTime(dropTime);
 	  return taxiHistory;
   }
-  public boolean availableTimeForPickUp(char pickUpPoint,long pickUpTime,Taxi taxiObj) {
-	 int fromPoint=taxiObj.getCurrentPosition();
-	 int toPoint=pickUpPoint;
-	  long reachTime=0;
-	 if(fromPoint>toPoint) {
-		 for(int i=fromPoint;i>toPoint;i--) {
-			 reachTime+=900000;
-		 }
-	 }
-	 else {
-		 for(int i=toPoint;i>fromPoint;i--) {
-			 reachTime+=900000;
-		 }
-	 }
-	 if(pickUpTime<reachTime) {
+  public boolean availableTimeForPickUp(char pickUpPoint,float pickUpTime,Taxi taxiObj) {
+	 float freeTime=taxiObj.getFreeTime();
+//	 int toPoint=pickUpPoint;
+//	  long reachTime=0;
+//	 if(fromPoint>toPoint) {
+//		 for(int i=fromPoint;i>toPoint;i--) {
+//			 reachTime+=900000;
+//		 }
+//	 }
+//	 else {
+//		 for(int i=toPoint;i>fromPoint;i--) {
+//			 reachTime+=900000;
+//		 }
+//	 }
+	 if(pickUpTime<freeTime) {
 		 return false;
 	 }
 	 return true;
@@ -139,32 +145,55 @@ public class CallTaxiBooking {
 	  }
 	  return amount;
   }
-  public void changeStatus(int taxiNo) {
-	  for(int i=0;i<taxi.size();i++) {
-		  if(taxi.get(i).getTaxiNo()==taxiNo) {
-			  taxi.get(i).setAvailable(true);
-		  }
-	  }
-  }
-  public void printHistory() {
+//  public void changeStatus(int taxiNo) {
+//	  for(int i=0;i<taxi.size();i++) {
+//		  if(taxi.get(i).getTaxiNo()==taxiNo) {
+//			  taxi.get(i).setAvailable(true);
+//		  }
+//	  }
+//  }
+  public String printHistory() {
 	  String string="";
 	  
-	  for(int i=0;i<taxi.size();i++) {
-		  Taxi t=taxi.get(i);
-		  List<TaxiHistory> l=taxiHistory.get(t.getTaxiNo());
-		  string+="Traval History of "+t.getTaxiNo()+":\n";
-		  if(l.size()==0) {
-			  string+="No travels\n";
-		  }
-		  else {
-			
-		  }
+	  Set<Integer> taxiNo=taxiHistory.keySet();
+	  for(int taxiNumber:taxiNo) {
+		 
+		  List<TaxiHistory> l=taxiHistory.get(taxiNumber);
+		  string+="Traval History of "+taxiNumber+":\n";
+		    string+="Booking Id\t\tstart point\t\tend point\t\tstartTime\t\tDrop Time\t\tBookingType\t\tCharges\n";
+			for(int k=0;k<l.size();k++) {
+			string+=l.get(k).getBookingId()+"\t\t\t"+l.get(k).getPickUpPoint()+"\t\t\t"+l.get(k).getDropPoint()+"\t\t\t"+l.get(k).getPickUpTime()+"\t\t\t"+l.get(k).getDropTime()+"\t\t\t"+l.get(k).getBookingType()+"\t\t\t"+l.get(k).getAmount()+"\n";
+			}
+		
 		  
 	  }
-	  //return taxiHistory;
+	  return string;
   }
+  public String time(long time) {
+	  SimpleDateFormat si=new SimpleDateFormat("hh:mm");
+	  Date date=new Date(time);
+	 return  si.format(date);
+  }
+
   int customerId=0;
   public int generatCustomerId() {
 	  return ++customerId;
+  }
+  public boolean isShareBooking(char pickUp,char drop) {
+	  int differance=Math.abs(pickUp-drop);
+	  if(differance>2) {
+		  return true;
+	  }
+	  return false;
+  }
+  public Float calculateDropTime(float pickUpTime,int dropTime) {
+	  float ans=0.00f;
+	  float k=dropTime/60;
+	  ans=ans+k;
+	  float h=dropTime%60;
+	  float j=h/100;
+	  ans=ans+j;
+	  ans=pickUpTime+ans;
+	  return ans;
   }
 }

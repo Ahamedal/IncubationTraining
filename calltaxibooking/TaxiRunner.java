@@ -27,25 +27,37 @@ public class TaxiRunner {
 			char pickUp=sc.next().charAt(0);
 			System.out.println("Enter your drop point ");
 			char drop=sc.next().charAt(0);
-			System.out.println("How much time takes to pickup you ");
-			int pickUpTime=sc.nextInt();
-			long t=0;
-			for(int i=0;i<pickUpTime;i++) {
-				t+=3600000;
+			System.out.println("Enter Your pickUpTime");
+			float pickUpTime=sc.nextFloat();
+			int bookingType=1;
+			int amount=object.payment(pickUp, drop);
+			System.out.print("Charges For Normal(1) "+amount);
+			if(object.isShareBooking(pickUp, drop)) {
+				System.out.println(" Share(2) "+((amount*40)/100));
+				System.out.println("Enter bookingType");
+				bookingType=sc.nextInt();
+				if(bookingType==2) {
+					amount=(amount*40)/100;
+				}
 			}
+		
+			
+			int k=Math.abs(pickUp-drop);
+			int dropTime=0;
+			for(int i=0;i<k;i++) {
+				dropTime+=15;
+			}
+			float dropTime1=object.calculateDropTime(pickUpTime,dropTime);
 			int cus=object.generatCustomerId();
-			System.out.println(object.taxiBooking(pickUp, drop, t, cus));
+			System.out.println(object.taxiBooking(pickUp, drop, pickUpTime, dropTime1,cus,bookingType,amount));
+			System.out.println("Your Booking id is "+cus);
 			break;
 		
 		case 2:
-			//System.out.println(object.printHistory());
+			System.out.println(object.printHistory());
 			break;
 		
-		case 3:
-			int taxiNo=sc.nextInt();
-			sc.nextLine();
-			object.changeStatus(taxiNo);
-			break;
+		
 			
 		}
 	}

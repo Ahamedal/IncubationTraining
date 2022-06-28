@@ -5,7 +5,16 @@ public class Taxi {
  private int taxiNo;
  private double amountEarned;
  private char currentPosition='A';
- private boolean isAvailable=true;
+ private float freeTime=6.00f;
+ 
+
+
+public float getFreeTime() {
+	return freeTime;
+}
+public void setFreeTime(float freeTime) {
+	this.freeTime = freeTime;
+}
 public int getTaxiNo() {
 	return taxiNo;
 }
@@ -24,12 +33,7 @@ public char getCurrentPosition() {
 public void setCurrentPosition(char currentPosition) {
 	this.currentPosition = currentPosition;
 }
-public boolean isAvailable() {
-	return isAvailable;
-}
-public void setAvailable(boolean isAvailable) {
-	this.isAvailable = isAvailable;
-}
+
  
  
 }
