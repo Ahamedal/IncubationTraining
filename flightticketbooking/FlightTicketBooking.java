@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class FlightTicketBooking {
-	int surge=0;
+	
 	int ticketNumber=1000;
 	Map<Integer,Flight> flights=new HashMap<>();
 	Map<Integer,Ticket> bookingTicket=new HashMap<>();
@@ -44,7 +44,10 @@ public class FlightTicketBooking {
 		  if(ar.contains("}")) {
 			  ar=ar.replace("}", "");
 		  }
-		  list1.add(Integer.parseInt(ar));
+		 
+			
+		  
+		  list1.add(Integer.parseInt(ar.trim()));
 		  
 	  }
 	  return list1;
@@ -59,8 +62,8 @@ public class FlightTicketBooking {
 		  flight.setBusinessClassTicket(business);
 		  flight.setBusinessTicketPrice(2000);
 		  flight.setEconomyTicketPrice(1000);
-		  flight.setSurgePrice(100+surge);
-		  surge+=10;
+		  flight.setSurgePrice(100);
+		  
 		  if(flightNumber==112) {
 			  flight.setFlightName("Flight-A112-Chennai-Mumbai");
 			  flight.setSource("Chennai");
@@ -105,13 +108,14 @@ public class FlightTicketBooking {
   }
   public Map<String,String> seatingArrangements(List<Integer> list)throws Exception {
 	  objectCheck(list);
-	  String left="W";
-	  String middle="A";
-	  String right="A";
-	  
+	 
 	  Map<String,String> businessClass=new HashMap<>();
 	  
 	  for(int i=1;i<=list.get(3);i++) {
+		  String left="W";
+		  String middle="A";
+		  String right="A";
+		  
 		  int column=65;
 		  char c=(char) column;
 		  for(int j=0;j<list.get(0);j++) {
@@ -241,18 +245,22 @@ public class FlightTicketBooking {
 	  ticket.setSeatClass(ticketType);
 	  ticket.setMeal(meal);
 	  bookTicket(ticket);
-	  surgePricing(flightNo);
-	  String str="Your ticket number is"+ticketNumber;
-	  str+=passengers.toString()+"Your total amount is"+ticket.getTotalAmount();
+	  surgePricing(flightNo,ticketType);
+	  String str="Your ticket number is "+ticketNumber;
+	  str+=passengers.toString()+"Your total amount is "+ticket.getTotalAmount();
 	  return str;
 	  
   }
-  public void surgePricing(int flightNumber)throws Exception {
+  public void surgePricing(int flightNumber,String ticketType)throws Exception {
 	  checkFlightNumber(flightNumber);
 	  Flight flight=flights.get(flightNumber);
 	  double k=flight.getSurgePrice();
+	  if(ticketType.startsWith("B")) {
 	  flight.setBusinessTicketPrice(flight.getBusinessTicketPrice()+(2*k));
+	  }
+	  else if(ticketType.startsWith("E")) {
 	  flight.setEconomyTicketPrice(flight.getEconomyTicketPrice()+(k));
+	  }
   }
  
   public void bookTicket(Ticket ticket)throws Exception {

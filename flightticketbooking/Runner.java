@@ -23,8 +23,8 @@ public class Runner {
 	public static void main(String[] args) {
 
 		FileLayer f = new FileLayer();
-		 //f.createDirectory();
-		 //f.createFile();
+		 f.createDirectory();
+		 f.createFile();
 		FlightTicketBooking ft = new FlightTicketBooking();
 		Scanner sc = new Scanner(System.in);
 		try {
