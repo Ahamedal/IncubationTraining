@@ -163,16 +163,16 @@ public class Chess {
 			li.add("You endered position is do not any piece");
 		}
 		if (piece.endsWith("R")) {
-			return movedPositionRook(b, a, position);
+			return movedPositionRook(position);
 		}
 		if (piece.endsWith("B")) {
-			return movedPositionBishop(b, a, position);
+			return movedPositionBishop(position);
 		}
 		if (piece.endsWith("Q")) {
-			return movedPositionQueen(b, a, position);
+			return movedPositionQueen(position);
 		}
 		if (piece.endsWith("K")) {
-			return movedPositionKing(b, a, position);
+			return movedPositionKing(position);
 		}
 		if (piece.endsWith("P")) {
 			return movedPositionPawn(b, a, position);
@@ -240,363 +240,133 @@ public class Chess {
 		return recordingMoves;
 	}
 
-	public List<String> movedPositionRook(int row, int col, String postion) {
+	public List<String> movedPositionRook(String position) {
+		 List<String> listOfMovings=new ArrayList<>();
+		  
+		  int rowMoves[]= {1,-1,0,0};
+		  int colMoves[]= {0,0,1,-1};
+		  String string="";
+		  for( int i=0;i<4;i++ )
+		  {
+		 boolean flag=true;
+		  char cols=(char) ( position.charAt(0)+colMoves[i] );
+		  
+		  int rows=( Integer.parseInt( position.charAt(1)+"" )+rowMoves[i] );
+		  
+		  while( rows>0 && rows<=8 && cols>='a' && cols<='h' &&flag)
+		  {      
+		      string=cols+""+rows ;
+		      if (!position.equals(string)) {
+					if (!checkAbstract(string)) {
+						listOfMovings.add(string);
+
+					} else {
+						if (checkOppositeCoin(position, string)) {
+							listOfMovings.add(string + " can be captured");
+						}
+						flag = false;
+					}
+				}
+		       
+		       
+		       cols+=colMoves[i] ;
+		  
+		        rows+=rowMoves[i] ;
+		        
+		      
+		  }
+		  
+		  }
+		return listOfMovings;
+	}
+
+
+	public List<String> movedPositionBishop(String position) {
+		 List<String> listOfMovings=new ArrayList<>();
+		  
+		  int rowMoves[]= {1,-1,-1,1};
+		  int colMoves[]= {1,-1,1,-1};
+		  String string="";
+		  for( int i=0;i<4;i++ )
+		  {
+		 boolean flag=true;
+		  char cols=(char) ( position.charAt(0)+colMoves[i] );
+		  
+		  int rows=( Integer.parseInt( position.charAt(1)+"" )+rowMoves[i] );
+		  
+		  while( rows>0 && rows<=8 && cols>='a' && cols<='h' &&flag)
+		  {      
+		      string=cols+""+rows ;
+		      if (!position.equals(string)) {
+					if (!checkAbstract(string)) {
+						listOfMovings.add(string);
+
+					} else {
+						if (checkOppositeCoin(position, string)) {
+							listOfMovings.add(string + " can be captured");
+						}
+						flag = false;
+					}
+				}
+		       
+		       
+		       cols+=colMoves[i] ;
+		  
+		        rows+=rowMoves[i] ;
+		        
+		      
+		  }
+		  
+		  }
+		return listOfMovings;
+
+	}
+
+	public List<String> movedPositionQueen(String postion) {
 		List<String> lis = new ArrayList<>();
-		char first = postion.charAt(0);
-		char second = postion.charAt(1);
-
-		String string = "";
-		for (int di = 1; di <= 4; di++) {
-			int rows = row;
-			int cols = col;
-			if (di == 1) {
-				boolean flag = true; // move right side
-				while (true) {
-					if (cols >= 8 || !flag) {
-						break;
-					}
-					char c = (char) (97 + cols);
-					string = "" + c + second;
-					if (!postion.equals(string)) {
-						if (!checkAbstract(string)) {
-							lis.add(string);
-
-						} else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-							flag = false;
-						}
-					}
-					cols++;
-				}
-
-			}
-			if (di == 2) {
-				boolean flag = true; // move left side
-				while (true) {
-					if (cols < 0 || !flag) {
-						break;
-					}
-					char c = (char) (97 + cols);
-					string = "" + c + second;
-					if (!postion.equals(string)) {
-						if (!checkAbstract(string)) {
-							lis.add(string);
-
-						} else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-							flag = false;
-						}
-
-					}
-					cols--;
-				}
-
-			}
-			if (di == 3) {
-				boolean flag = true; // move top side
-				while (true) {
-					if (rows < 0 || !flag) {
-						break;
-					}
-					string = "" + first + (8 - rows);
-					if (!postion.equals(string)) {
-						if (!checkAbstract(string)) {
-							lis.add(string);
-						}
-
-						else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-
-							flag = false;
-						}
-					}
-					rows--;
-				}
-
-			}
-			if (di == 4) {
-				boolean flag = true; // move down side
-				while (true) {
-
-					if (rows >= 8 || !flag) {
-						break;
-					}
-
-					string = "" + first + (8 - rows);
-					if (!postion.equals(string)) {
-						if (!checkAbstract(string)) {
-							lis.add(string);
-
-						} else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-							flag = false;
-						}
-					}
-					rows++;
-				}
-
-			}
-		}
+		lis.addAll(movedPositionRook(postion));
+		lis.addAll(movedPositionBishop(postion));
 		return lis;
 	}
 
-	public List<String> movedPositionBishop(int row, int col, String postion) {
+	public List<String> movedPositionKing(String position) {
 		List<String> lis = new ArrayList<>();
-
-		String string = "";
-		for (int di = 1; di <= 4; di++) {
-			int rows = row;
-			int cols = col;
-			if (di == 1) {
-				boolean flag = true;// move right down diagonal side
-				while (true) {
-					if (rows >= 8 || cols >= 8 || !flag) {
-						break;
-					}
-					char c = (char) (97 + cols);
-					string = "" + c + (8 - rows);
-					if (!postion.equals(string)) {
-
-						if (!checkAbstract(string)) {
-							lis.add(string);
-
-						}
-
-						else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-							flag = false;
-						}
-					}
-					rows++;
-					cols++;
-				}
-
-			}
-			if (di == 2) {
-				boolean flag = true; // move right top diagonal side
-				while (true) {
-					if (rows < 0 || cols >= 8 || !flag) {
-						break;
-					}
-					char c = (char) (97 + cols);
-					string = "" + c + (8 - rows);
-					if (!postion.equals(string)) {
-						if (!checkAbstract(string)) {
-							lis.add(string);
-
-						} else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-							flag = false;
-						}
-					}
-					rows--;
-					cols++;
-				}
-
-			}
-			if (di == 3) {
-				boolean flag = true; // move right top diagonal side
-				while (true) {
-					if (rows < 0 || cols < 0 || !flag) {
-						break;
-					}
-					char c = (char) (97 + cols);
-					string = "" + c + (8 - rows);
-					if (!postion.equals(string)) {
-						if (!checkAbstract(string)) {
-							lis.add(string);
-
-						} else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-							flag = false;
-						}
-					}
-					rows--;
-					cols--;
-				}
-
-			}
-			if (di == 4) {
-				boolean flag = true; // move right top diagonal side
-				while (true) {
-					if (rows >= 8 || cols < 0 || !flag) {
-						break;
-					}
-					char c = (char) (97 + cols);
-					string = "" + c + (8 - rows);
-					if (!postion.equals(string)) {
-						if (!checkAbstract(string)) {
-							lis.add(string);
-
-						} else {
-							if (checkOppositeCoin(postion, string)) {
-								lis.add(string + " can be captured");
-							}
-							flag = false;
-						}
-					}
-					rows++;
-					cols--;
-				}
-
-			}
-
-		}
-
-		return lis;
-	}
-
-	public List<String> movedPositionQueen(int row, int col, String postion) {
-		List<String> lis = new ArrayList<>();
-		lis.addAll(movedPositionRook(row, col, postion));
-		lis.addAll(movedPositionBishop(row, col, postion));
-		return lis;
-	}
-
-	public List<String> movedPositionKing(int row, int col, String postion) {
-		List<String> lis = new ArrayList<>();
-		String string = "";
-		char first = postion.charAt(0);
-		char second = postion.charAt(1);
-		for (int di = 1; di <= 8; di++) {
-			int rows = row;
-			int colums = col;
-			if (di == 1) {
-				colums++;
-				if (colums < 8) {
-					char c = (char) (97 + colums);
-					string = "" + c + second;
+		 int rowMoves[]= {1,-1,0,0,1,-1,1,-1};
+		  int colMoves[]= {0,0,1,-1,1,-1,-1,1};
+		  String string="";
+		  for( int i=0;i<8;i++ )
+		  {
+		 boolean flag=true;
+		  char cols=(char) ( position.charAt(0)+colMoves[i] );
+		  
+		  int rows=( Integer.parseInt( position.charAt(1)+"" )+rowMoves[i] );
+		  
+		  if( rows>0 && rows<=8 && cols>='a' && cols<='h' &&flag)
+		  {      
+		      string=cols+""+rows ;
+		      if (!position.equals(string)) {
 					if (!checkAbstract(string)) {
 						lis.add(string);
-					} else {
-						if (checkOppositeCoin(postion, string)) {
-							lis.add(string + " can be captured");
-						}
-					}
-				}
 
-			}
-			if (di == 2) {
-				colums--;
-				if (colums >= 0) {
-					char c = (char) (97 + colums);
-					string = "" + c + second;
-					if (!checkAbstract(string)) {
-						lis.add(string);
 					} else {
-						if (checkOppositeCoin(postion, string)) {
+						if (checkOppositeCoin(position, string)) {
 							lis.add(string + " can be captured");
 						}
+						flag = false;
 					}
 				}
-			}
+		       
+		       
+		       cols+=colMoves[i] ;
+		  
+		        rows+=rowMoves[i] ;
+		        
+		      
+		  }
+		  
+		  }
+		  return lis;
 
-			if (di == 3) {
-				rows--;
-				if (rows >= 0) {
-					string = "" + first + (8 - rows);
-					if (!checkAbstract(string)) {
-						lis.add(string);
-					} else {
-						if (checkOppositeCoin(postion, string)) {
-							lis.add(string + " can be captured");
-						}
-					}
-				}
-
-			}
-			if (di == 4) {
-				rows++;
-				if (rows <= 8) {
-					string = "" + first + (8 - rows);
-					if (!checkAbstract(string)) {
-						lis.add(string);
-					} else {
-						if (checkOppositeCoin(postion, string)) {
-							lis.add(string + " can be captured");
-						}
-					}
-				}
-			}
-			if (di == 5) {
-				rows++;
-				colums++;
-				if (rows <= 8 && colums <= 8) {
-					char c = (char) (97 + colums);
-					string = "" + c + (8 - rows);
-					if (!checkAbstract(string)) {
-						lis.add(string);
-					} else {
-						if (checkOppositeCoin(postion, string)) {
-							lis.add(string + " can be captured");
-						}
-					}
-				}
-
-			}
-			if (di == 6) {
-				rows--;
-				colums++;
-				if (rows >= 0 && colums <= 8) {
-					char c = (char) (97 + colums);
-					string = "" + c + (8 - rows);
-					if (!checkAbstract(string)) {
-						lis.add(string);
-					} else {
-						if (checkOppositeCoin(postion, string)) {
-							lis.add(string + " can be captured");
-						}
-					}
-				}
-			}
-			if (di == 7) {
-				rows--;
-				colums--;
-				if (rows >= 0 && colums >= 0) {
-					char c = (char) (97 + colums);
-					string = "" + c + (8 - rows);
-					if (!checkAbstract(string)) {
-						lis.add(string);
-					} else {
-						if (checkOppositeCoin(postion, string)) {
-							lis.add(string + " can be captured");
-						}
-					}
-				}
-
-			}
-			if (di == 8) {
-				rows++;
-				colums--;
-				if (rows <= 8 && colums >= 0) {
-					char c = (char) (97 + colums);
-					string = "" + c + (8 - rows);
-					if (!checkAbstract(string)) {
-						lis.add(string);
-					} else {
-						if (checkOppositeCoin(postion, string)) {
-							lis.add(string + " can be captured");
-						}
-					}
-				}
-
-			}
-		}
-		return lis;
 	}
 
 	public List<String> movedPositionPawn(int row, int col, String position) {
