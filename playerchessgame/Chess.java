@@ -1110,7 +1110,7 @@ public class Chess {
 		}
 
 	}
-
+    
 	private void checkPosition(String position) throws Exception {
 		if (chessBoard.get(position) == null) {
 			throw new Exception("Position is wrong or dont coin in that place");
