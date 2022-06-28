@@ -11,214 +11,202 @@ public class Runner {
 		Chess ch = new Chess();
 		ch.initialSetUp();
 		// System.out.println(ch.getPosition("d7"));
-       
-        int choice1=0;
+		int i = 0;
+
+		boolean flags = true;
+
 		while (true) {
+			int choice1 = 0;
 			System.out.println(ch.getRecording());
-			int choice=0;
-			
-			
-			System.out.println("Player 1 -->move white");
-			String coinPosition = null;
-			List<String> position = null;
-			while (true) {
-				System.out.println("Enter choose any one of coin position or Enter Print for print board or Enter exit for exit game");
-				coinPosition = sc.nextLine();
-
-				if (coinPosition.equals("Print")) {
-					System.out.println(ch.printingBoard());
-				} else if (coinPosition.equals("Exit")) {
-					System.out.println("Exit the game");
-					System.exit(0);
-				} else {
-					try {
-						
-					if (ch.checkPlayerMoveOppositeCoin(coinPosition, 'W')) {
-						
-						position = ch.getPosition(coinPosition);
-						System.out.println(position);
-
-						if (position.size() == 0) {
-							System.out.println("This coin dont move to any position");
-						} else {
-							break;
-						}
-					}
-				
-					else {
-						System.out.println("choose only white coin positions");
-					}
-					}
-					catch(Exception e) {
-						System.out.println(e.getMessage());
-					}
-					
-				}
-
-			}
-			boolean flag = true;
-			while (flag) {
-				System.out.println("Enter move position or Enter Print for print board or Enter exit for exit game");
-				String movePosition = sc.nextLine();
-				if (movePosition.equals("Print")) {
-					System.out.println(ch.printingBoard());
-				} else if (coinPosition.equals("Exit")) {
-					System.out.println("Exit the game");
-					System.exit(0);
-				} 
-				
-				else {
-					if (ch.move(coinPosition, movePosition, position)) {
-						System.out.println(ch.printingBoard());
-						flag = false;
-					} else {
-						System.out.println("moved position is wrong");
-					}
-
-				}
-			}
-			try {
-			if(ch.isBlackKingCheckMate()) {
-				System.out.println("CheckMate\nWhite is win\nGame is over");
-				System.exit(0);
-			}
-			if(ch.isBlackKingCheck()) {
-				System.out.println("Now a time,Black King is Check");
-			}
-			}
-			catch(Exception e) {
-				System.out.println(e.getMessage());
-			}
-			while(true) {
+			int choice = 0;
+			if (i != 0 && flags) {
 				System.out.println("You like to reverse 1-Yes or 0-No");
-				
+
 				try {
-				choice1=sc.nextInt();
-				
-				}
-				catch(Exception e) {
+					choice = sc.nextInt();
+
+				} catch (Exception e) {
 					System.out.println("Enters numbers only");
-					
-				}
-				
-			    sc.nextLine();
-			    if(choice1==0) {
-			    	break;
-			    }
-			    else if(choice1==1) {
-			    	try {
-			    	ch.reverse();
-			    	}
-			    	catch(Exception e) {
-			    		System.out.println(e.getMessage());
-			    		break;
-			    	}
-			    	System.out.println(ch.printingBoard());
-			    }
-			    else {
-			    	System.out.println("Enter 0 or 1 only");
-			    }
-				}
-			String coinPosition1 = null;
-			List<String> position1 = null;
-			while(true) {
-			System.out.println("Player 2 -->move Black");
-			
-			
-				System.out.println("Enter choose any one of coin position or Enter Print for print board or Enter exit for exit game");
-				coinPosition1 = sc.nextLine();
-				if (coinPosition1.equals("Print")) {
-					System.out.println(ch.printingBoard());
-				} else if (coinPosition1.equals("Exit")) {
-					System.out.println("Exit the game");
-					System.exit(0);
-				} else {
-					try {
-					if (ch.checkPlayerMoveOppositeCoin(coinPosition1, 'B')) {
-						
-						position1 = ch.getPosition(coinPosition1);
-						
-						System.out.println(position1);
-						if (position1.size() == 0) {
-							System.out.println("This coin dont move to any position");
-						} else {
-							break;
-						}
-					} else {
-						System.out.println("Choose only black coin to move");
-					}
-					}
-					catch(Exception e) {
-						System.out.println(e.getMessage());
-					}
-				}
-				
-			}
-			boolean flag1 = true;
-			while (flag1) {
-				System.out.println("Enter move position or Enter Print for print board or Enter exit for exit game");
-				String movePosition1 = sc.nextLine();
-				if (coinPosition1.equals("Print")) {
-					System.out.println(ch.printingBoard());
-				} else if (coinPosition1.equals("Exit")) {
-					System.out.println("Exit the game");
-					System.exit(0);
-				} else {
-					if (ch.move(coinPosition1, movePosition1, position1)) {
-						System.out.println(ch.printingBoard());
-						flag1 = false;
-					} else {
-						System.out.println("moved position is wrong");
-					}
-				}
-			}
-			    while(true) {
-				System.out.println("You like to reverse 1-Yes or 0-No");
-				
-				try {
-				choice=sc.nextInt();
-				}
-				catch(Exception e) {
-					System.out.println("Enter numbers only");
-					
-				}
-			    
-			    sc.nextLine();
-			    if(choice==0) {
-			    	break;
-			    }
-			    else if(choice==1) {
-			    	try {
-				    	ch.reverse();
-				    	}
-				    	catch(Exception e) {
-				    		System.out.println(e.getMessage());
-				    		break;
-				    	}
-			    	System.out.println(ch.printingBoard());
-			    }
-			    else {
-			    	System.out.println("Enter 0 or 1 only");
-			    }
+
 				}
 
-			
-			try {
-			if(ch.isWhiteKingCheckMate()) {
-				System.out.println("CheckMate\nBlack is win\nGame is over");
-				System.exit(0);
+				sc.nextLine();
 			}
-			if(ch.isWhiteKingCheck()) {
-				System.out.println("Now a time,White King is Check");
+			if (choice == 1) {
+				try {
+					ch.reverse();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+
+				}
+				System.out.println(ch.printingBoard());
+			} else {
+				System.out.println("Player 1 -->move white");
+				String coinPosition = null;
+				List<String> position = null;
+				while (true) {
+					System.out.println(
+							"Enter choose any one of coin position or Enter Print for print board or Enter exit for exit game");
+					coinPosition = sc.nextLine();
+
+					if (coinPosition.equals("Print")) {
+						System.out.println(ch.printingBoard());
+					} else if (coinPosition.equals("Exit")) {
+						System.out.println("Exit the game");
+						System.exit(0);
+					} else {
+						try {
+
+							if (ch.checkPlayerMoveOppositeCoin(coinPosition, 'W')) {
+
+								position = ch.getPosition(coinPosition);
+								System.out.println(position);
+
+								if (position.size() == 0) {
+									System.out.println("This coin dont move to any position");
+								} else {
+									break;
+								}
+							}
+
+							else {
+								System.out.println("choose only white coin positions");
+							}
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+
+					}
+
+				}
+				boolean flag = true;
+				while (flag) {
+					System.out
+							.println("Enter move position or Enter Print for print board or Enter exit for exit game");
+					String movePosition = sc.nextLine();
+					if (movePosition.equals("Print")) {
+						System.out.println(ch.printingBoard());
+					} else if (coinPosition.equals("Exit")) {
+						System.out.println("Exit the game");
+						System.exit(0);
+					}
+
+					else {
+						if (ch.move(coinPosition, movePosition, position)) {
+							System.out.println(ch.printingBoard());
+							flag = false;
+						} else {
+							System.out.println("moved position is wrong");
+						}
+
+					}
+				}
+
+				try {
+					if (ch.isBlackKingCheckMate()) {
+						System.out.println("CheckMate\nWhite is win\nGame is over");
+						System.exit(0);
+					}
+					if (ch.isBlackKingCheck()) {
+						System.out.println("Now a time,Black King is Check");
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+
+				System.out.println("You like to reverse 1-Yes or 0-No");
+
+				try {
+					choice1 = sc.nextInt();
+
+				} catch (Exception e) {
+					System.out.println("Enters numbers only");
+
+				}
+
+				sc.nextLine();
 			}
+			if (choice1 == 1) {
+				try {
+					ch.reverse();
+					flags = false;
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+
+				}
+				System.out.println(ch.printingBoard());
+			} else {
+				String coinPosition1 = null;
+				List<String> position1 = null;
+
+				while (true) {
+					System.out.println("Player 2 -->move Black");
+
+					System.out.println(
+							"Enter choose any one of coin position or Enter Print for print board or Enter exit for exit game");
+					coinPosition1 = sc.nextLine();
+					if (coinPosition1.equals("Print")) {
+						System.out.println(ch.printingBoard());
+					} else if (coinPosition1.equals("Exit")) {
+						System.out.println("Exit the game");
+						System.exit(0);
+					} else {
+						try {
+							if (ch.checkPlayerMoveOppositeCoin(coinPosition1, 'B')) {
+
+								position1 = ch.getPosition(coinPosition1);
+
+								System.out.println(position1);
+								if (position1.size() == 0) {
+									System.out.println("This coin dont move to any position");
+								} else {
+									break;
+								}
+							} else {
+								System.out.println("Choose only black coin to move");
+							}
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+					}
+
+				}
+				boolean flag1 = true;
+				while (flag1) {
+					System.out
+							.println("Enter move position or Enter Print for print board or Enter exit for exit game");
+					String movePosition1 = sc.nextLine();
+					if (coinPosition1.equals("Print")) {
+						System.out.println(ch.printingBoard());
+					} else if (coinPosition1.equals("Exit")) {
+						System.out.println("Exit the game");
+						System.exit(0);
+					} else {
+						if (ch.move(coinPosition1, movePosition1, position1)) {
+							System.out.println(ch.printingBoard());
+							flag1 = false;
+						} else {
+							System.out.println("moved position is wrong");
+						}
+					}
+				}
+
+				try {
+					if (ch.isWhiteKingCheckMate()) {
+						System.out.println("CheckMate\nBlack is win\nGame is over");
+						System.exit(0);
+					}
+					if (ch.isWhiteKingCheck()) {
+						System.out.println("Now a time,White King is Check");
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+
+				flags = true;
+				i++;
 			}
-			catch(Exception e) {
-				System.out.println(e.getMessage());
-			}
-			
-		
+
 		}
-	
-		}
-	
+	}
 }
