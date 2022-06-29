@@ -1,5 +1,6 @@
 package atmprocess;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +18,7 @@ public class Runner {
 			sc.nextLine();
 			switch(choose) {
 			case 1:
+				try {
 				System.out.println("Enter no Of 2000's");
 				int noOf2000=sc.nextInt();
 				System.out.println("Enter no of 500's");
@@ -24,7 +26,12 @@ public class Runner {
 				System.out.println("Enter no of 100's");
 				int noOf100=sc.nextInt();
 				
+				
 				atmProcess.feedMoneyToATM(noOf2000, noOf500, noOf100);
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Enters numbers only");
+				}
 				break;
 
 			case 2:
@@ -32,11 +39,12 @@ public class Runner {
 				break;
 				
 			case 3:
-				
+				try {
 				System.out.println("Enter Account Number");
 				int accNo=sc.nextInt();
 				System.out.println("Enter PinNumber");
 				int pinNo=sc.nextInt();
+				
 				if(atmProcess.validateCustomer(accNo,pinNo)) {
 					boolean condition2=true;
 				while(condition2) {
@@ -111,9 +119,17 @@ public class Runner {
 				else {
 					System.out.println("Your account number or pin number is wrong");
 				}
+				}
+				catch(InputMismatchException e) {
+					System.out.println(e.getMessage());
+				}
+				catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
+				
 	  }
 				
-		
+			
 		
 	}
 		

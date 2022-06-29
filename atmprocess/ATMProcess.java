@@ -27,13 +27,14 @@ public class ATMProcess {
      public int generateTransactionNumber() {
     	 return ++transactionNumber;
      }
-     public boolean validateCustomer(int accNo,int pinNo)	{
+     public boolean validateCustomer(int accNo,int pinNo) throws Exception	{
+    	 checkAccountNumber(accNo);
     	Customer customer= customers.get(accNo);
-    	if(customer!=null) {
+    	
     	if(customer.getPinNumber()==pinNo)	{
     		return true;
     	}
-        }
+        
     	return false;
      }
      public void feedMoneyToATM(int noOf2000,int noOf500,int noOf100) {
@@ -46,6 +47,7 @@ public class ATMProcess {
      }
     
      public double getBalance(int accNumber) {
+    	 
     	Customer customer= customers.get(accNumber);
     	return customer.getBalance();
      }
@@ -295,5 +297,10 @@ public class ATMProcess {
      }
      public List<String> showTransactionDetails(int accNo) {
     	 return fl.showTransactionDetails(accNo);
+     }
+     private void checkAccountNumber(int accNo) throws Exception {
+    	 if(customers.get(accNo)==null) {
+    		 throw new Exception("Account Number is wrong");
+    	 }
      }
      }
