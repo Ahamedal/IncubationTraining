@@ -357,7 +357,7 @@ public class Chess {
 				}
 		       
 		       
-		       cols+=colMoves[i] ;
+		        cols+=colMoves[i] ;
 		  
 		        rows+=rowMoves[i] ;
 		        
@@ -394,7 +394,7 @@ public class Chess {
 			}
 
 			// string=""+postion.charAt(0)+(8-row);
-			checkOppositeCoin1(position, row, col, li);
+			checkOppositeCoinForPawn(position, row, col, li);
 
 		} else {
 			if (position.endsWith("7")) {
@@ -412,14 +412,14 @@ public class Chess {
 				}
 			}
 
-			checkOppositeCoin1(position, row, col, li);
+			checkOppositeCoinForPawn(position, row, col, li);
 
 		}
 		return li;
 
 	}
 
-	public boolean checkOppositeCoin1(String postion, int rows, int colums, List<String> li) {
+	public boolean checkOppositeCoinForPawn(String postion, int rows, int colums, List<String> li) {
 		String piece = chessBoard.get(postion);
 		String string = "";
 
@@ -797,22 +797,6 @@ public class Chess {
 		}
 		return false;
 	}
-//	    List<String> allList=new ArrayList<>();
-//		Set<String> pieces=coinPositions.keySet();
-//		for(String piece:pieces) {
-//			if(piece.startsWith("B")) {
-//				List<String> lis1=coinPositions.get(piece);
-//				for(int i=0;i<lis1.size();i++) {
-//					
-//						allList.addAll(getPosition(lis1.get(i))) ;
-//							
-//			    }
-//			}
-//		}
-//		if(allList.containsAll(lis)) {
-//			return true;
-//		}
-//		return false;
 
 	public boolean isBlackKingCheckMate() throws Exception {
 		List<String> whiteKingPosition = coinPositions.get("B_K");
