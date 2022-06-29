@@ -5,14 +5,15 @@ public class Taxi {
  private int taxiNo;
  private double amountEarned;
  private char currentPosition='A';
- private float freeTime=6.00f;
+ private double freeTime=6.00;
  
 
 
-public float getFreeTime() {
+
+public double getFreeTime() {
 	return freeTime;
 }
-public void setFreeTime(float freeTime) {
+public void setFreeTime(double freeTime) {
 	this.freeTime = freeTime;
 }
 public int getTaxiNo() {

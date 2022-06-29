@@ -6,8 +6,8 @@ public class TaxiHistory {
  private int customerId;
  private char pickUpPoint;
  private char dropPoint;
- private float pickUpTime;
- private float dropTime;
+ private double pickUpTime;
+ private double dropTime;
  private int bookingType;
  private int amount;
 public int getBookingId() {
@@ -37,11 +37,19 @@ public void setDropPoint(char dropPoint) {
 
 
 
-public float getPickUpTime() {
+
+public double getPickUpTime() {
 	return pickUpTime;
 }
-public void setPickUpTime(float pickUpTime) {
+public void setPickUpTime(double pickUpTime) {
 	this.pickUpTime = pickUpTime;
+}
+
+public double getDropTime() {
+	return dropTime;
+}
+public void setDropTime(double dropTime) {
+	this.dropTime = dropTime;
 }
 public int getBookingType() {
 	return bookingType;
@@ -50,12 +58,6 @@ public void setBookingType(int bookingType) {
 	this.bookingType = bookingType;
 }
 
-public float getDropTime() {
-	return dropTime;
-}
-public void setDropTime(float dropTime) {
-	this.dropTime = dropTime;
-}
 public int getAmount() {
 	return amount;
 }
