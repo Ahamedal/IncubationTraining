@@ -1,6 +1,7 @@
 package atmprocess;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +15,13 @@ public class ATMProcess {
      Map<Integer,List<Transaction>> transactions=new HashMap<>();
      
      public void initialSetUp() {
-    	
-    	 
+    	if(fl.checkFileExist()) {
+    		setCustomerInput();
+    	}
     	 atm=fl.readFile();
     	 customers=fl.readCustomers();
-    	 
+    	 transactionNumber=fl.readTransactionNumber();
+    	 transactions=fl.readTransaction(customers);
     	 
      }
      public int generateTransactionNumber() {
@@ -135,13 +138,15 @@ public class ATMProcess {
     	 
      }
      public void addTransaction(int accNo,Transaction transaction) {
+    	
     	 List<Transaction> li=transactions.get(accNo);
     	 if(li==null) {
     		 li=new ArrayList<>();
     		 transactions.put(accNo, li);
     	 }
     	 li.add(transaction);
-    	 fl.writeTransaction(transactions, accNo,transactionNumber);
+    	 fl.writeTransaction(transactions, accNo);
+    	 fl.storeTransactionNumber(transactionNumber);
     	 
      }
      public void addTransactionHistory(int accNo,int amount) {
@@ -288,7 +293,7 @@ public class ATMProcess {
      public String showCustomerDetails() {
     	return fl.showCustomerDetails();
      }
-     public String showTransactionDetails(int accNo) {
+     public List<String> showTransactionDetails(int accNo) {
     	 return fl.showTransactionDetails(accNo);
      }
      }

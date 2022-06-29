@@ -1,5 +1,6 @@
 package atmprocess;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Runner {
@@ -8,12 +9,10 @@ public class Runner {
 		Scanner sc=new Scanner(System.in);
 		ATMProcess atmProcess=new ATMProcess();
 		atmProcess.initialSetUp();
-		
-		
-		atmProcess.showMap();
+	    atmProcess.showMap();
 		boolean condition=true;
 		while(condition) {
-			System.out.println("Enter 1-->Load Cash to ATM\nEnter 2-->Set CustomerDetails\nEnter 3-->Show CustomerDetails\nEnter 4-->ATM Operation");
+			System.out.println("Enter 1-->Load Cash to ATM\nEnter 2-->Show CustomerDetails\nEnter 3-->ATM Operation");
 			int choose=sc.nextInt();
 			sc.nextLine();
 			switch(choose) {
@@ -27,14 +26,12 @@ public class Runner {
 				
 				atmProcess.feedMoneyToATM(noOf2000, noOf500, noOf100);
 				break;
+
 			case 2:
-				atmProcess.setCustomerInput();
-				break;
-			case 3:
 				System.out.println(atmProcess.showCustomerDetails());
 				break;
 				
-			case 4:
+			case 3:
 				
 				System.out.println("Enter Account Number");
 				int accNo=sc.nextInt();
@@ -43,7 +40,7 @@ public class Runner {
 				if(atmProcess.validateCustomer(accNo,pinNo)) {
 					boolean condition2=true;
 				while(condition2) {
-				System.out.println("1.CheckBalance\n2.WithdrawMoney\n3.TransferMoney\n4.CheckAtmBalance\n5.MiniStateMent\n6Cancel");
+				System.out.println("1.CheckBalance\n2.WithdrawMoney\n3.TransferMoney\n4.CheckAtmBalance\n5.MiniStateMent\n6.Cancel");
 				int choice=sc.nextInt();
 				switch(choice) {
 				case 1:
@@ -91,9 +88,20 @@ public class Runner {
 					break;
 					
 				case 5:
-					System.out.println("Enter accountNo");
-					int accNo2=sc.nextInt();
-					System.out.println(atmProcess.showTransactionDetails(accNo2));
+					
+					List<String> lis=atmProcess.showTransactionDetails(accNo);
+					System.out.println(lis.get(0));
+					if(lis.size()<12) {
+						for(int i=1;i<lis.size();i++) {
+							System.out.println(lis.get(i));
+						}
+					}
+					else {
+						for(int i=lis.size()-11;i<lis.size();i++) {
+							System.out.println(lis.get(i));
+						}
+					}
+					break;
 				case 6:
 					condition2=false;
 					

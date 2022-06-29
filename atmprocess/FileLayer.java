@@ -15,6 +15,13 @@ import java.util.Set;
 public class FileLayer {
   File file=new File("ATM.txt");
   File file1=new File("Customers.txt");
+  public boolean checkFileExist() {
+	  if(file1.exists()) {
+		  return false;
+	  }
+	  return true;
+	  
+  }
 	public void createAndWriteFile(ATM atm) {
 		try(FileWriter fw=new FileWriter(file);) {
 			fw.write("Denomination\t\t\tNumber\t\t\t\tValue\n");
@@ -103,16 +110,16 @@ public class FileLayer {
 		}
 		return customers;
 	}
-	public void writeTransaction(Map<Integer,List<Transaction>> transactions,int accountNo,int transactionNumber) {
+	
+public void writeTransaction(Map<Integer,List<Transaction>> transactions,int accountNo) {
 		
 		try(FileWriter fw=new FileWriter(accountNo+"_transaction.txt")){
 			List<Transaction> li=transactions.get(accountNo);
-			String tranId=String.valueOf(transactionNumber);
-			fw.write(tranId+"\n");
+			
 			fw.write("Transaction Number\t\tDescription\t\t\tCredit/Debit\t\tAmount\t\t\tClosingBalance\n");
 			for(int i=0;i<li.size();i++) {
 				Transaction transaction=li.get(i);
-				fw.write(transaction.getTransactionNumber()+"\t\t\t\t"+transaction.getDescription()+"\t\t"+transaction.getTransactionType()+"\t\t\t"+transaction.getAmount()+"\t\t\t"+transaction.getClosingBalance()+"\n");
+				fw.write(transaction.getTransactionNumber()+"\t\t\t"+transaction.getDescription()+"\t\t\t"+transaction.getTransactionType()+"\t\t\t"+transaction.getAmount()+"\t\t\t"+transaction.getClosingBalance()+"\n");
 			}
 			
 		} catch (IOException e) {
@@ -120,24 +127,57 @@ public class FileLayer {
 			e.printStackTrace();
 		}
 	}
-	public int readTransactionNumber(Map<Integer, List<Transaction>> transactions) {
-		int transactionId=0;
-		Set<Integer> accountNumber=transactions.keySet();
-		for(int accNo:accountNumber) {
-			File accFile=new File(accNo+"_transaction.txt");
+public Map<Integer,List<Transaction>> readTransaction(Map<Integer,Customer> customers){
+	Map<Integer,List<Transaction>> transactions=new HashMap<>();
+	    Set<Integer> set=customers.keySet();
+	    for(int accNo:set) {
+	    	File file=new File(accNo+"_transaction.txt");
+	    	if(file.exists()) {
+	    		try(BufferedReader bf=new BufferedReader(new FileReader(file))) {
+	    			bf.readLine();
+	    			String st="";
+	    			while((st=bf.readLine())!=null) {
+	    				String[] ar=st.split("\t\t\t");
+	    				Transaction transaction=new Transaction();
+	    				transaction.setTransactionNumber(Integer.parseInt(ar[0]));
+	    				transaction.setDescription(ar[1]);
+	    				transaction.setTransactionType(ar[2]);
+	    				transaction.setAmount(Double.parseDouble(ar[3]));
+	    				transaction.setClosingBalance(Double.parseDouble(ar[4]));
+	    				addTransaction(accNo,transaction,transactions);
+	    			}
+	    		}  catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}
+	    }
+	    return transactions;
+}
+	public void storeTransactionNumber(int transactionNumber) {
+		try(FileWriter fw=new FileWriter("transaction.txt")){
+
+			fw.write(transactionNumber+"\t\t"+"\n");
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	public int readTransactionNumber() {
+		int transactionId=1000;
+			File accFile=new File("transaction.txt");
 		if(accFile.exists()) {
 		try(BufferedReader bf=new BufferedReader(new FileReader(accFile))){
 			String st=bf.readLine();
-			String[] array=st.split(" ");
-			if(transactionId>Integer.parseInt(array[0])) {
-				transactionId=Integer.parseInt(array[0]);
-			}
+			String[] array=st.split("\t\t");
+			transactionId=Integer.parseInt(array[0]);
 		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		}
-		}
+		
 		return transactionId;
 	}
 	
@@ -173,15 +213,17 @@ public class FileLayer {
 		}
 		return string;
 	}
-	public String showTransactionDetails(int accNo) {
+	public List<String> showTransactionDetails(int accNo) {
+		List<String> store=new ArrayList<>();
 		String string="";
 		File trFile=new File(accNo+"_transaction.txt");
 		if(trFile.exists()) {
 		try(BufferedReader bf=new BufferedReader(new FileReader(trFile))){
 		  String t="";
-		  bf.readLine();
+		 String temp= bf.readLine();
+		 store.add(temp);
 		  while((t=bf.readLine())!=null) {
-			  string+=t+"\n";
+			  store.add(t);
 		  }
 			
 		} catch (IOException e) {
@@ -189,7 +231,7 @@ public class FileLayer {
 			e.printStackTrace();
 		}
 		}
-		return string;
+		return store;
 	}
 	 public void addTransaction(int accNo,Transaction transaction,Map<Integer,List<Transaction>> transactions) {
     	 List<Transaction> li=transactions.get(accNo);
@@ -201,4 +243,5 @@ public class FileLayer {
     	 
     	 
      }
+	
 }
