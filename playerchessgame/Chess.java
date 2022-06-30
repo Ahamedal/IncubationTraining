@@ -7,10 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Chess {
-
+    int blackKingMove=0;
+    int whiteKingMove=0;
+    int blackRookLeftMove=0;              //For castling
+    int blackRookRightMove=0;
+    int whiteRookLeftMove=0;
+    int whiteRookRightMove=0;
 	Map<String, String> chessBoard = new HashMap<>();
 	Map<String, List<String>> coinPositions = new HashMap<>();
 	List<String> recordingMoves = new ArrayList<>();
+	
 
 	void initialSetUp() {
 		chessBoard.put("a1", "W_R");
@@ -213,10 +219,58 @@ public class Chess {
 
 	public boolean move(String currentPosition, String movePosition, List<String> position) {
 		if (position.contains(movePosition) || position.contains(movePosition + " can be captured")) {
-
+            
 			String piece = chessBoard.get(currentPosition);
+			if(piece.equals("W_R")&&currentPosition.equals("a1")) {
+				whiteRookLeftMove++;
+			}                                                                  //for castling operation
+			if(piece.equals("W_R")&&currentPosition.equals("h1")) {
+				whiteRookRightMove++;
+			}
+			if(piece.equals("B_R")&&currentPosition.equals("a8")) {
+				blackRookLeftMove++;
+			}
+			if(piece.equals("B_R")&&currentPosition.equals("h8")) {
+				blackRookRightMove++;
+			}
+			if(piece.equals("W_K")) {
+				if(movePosition.equals("g1")&&whiteKingMove==0) {
+					chessBoard.put("h1", null);
+					chessBoard.put("f1", "W_R");
+					List<String> coin=coinPositions.get("W_R");
+					coin.remove("h1");
+					coin.add("f1");
+				}
+				if(movePosition.equals("c1")&&whiteKingMove==0) {
+					chessBoard.put("a1", null);
+					chessBoard.put("d1", "W_R");
+					List<String> coin=coinPositions.get("W_R");
+					coin.remove("a1");
+					coin.add("d1");
+				}
+				whiteKingMove++;
+			}
+			if(piece.equals("B_K")) {
+				if(movePosition.equals("g8")&&blackKingMove==0) {
+					chessBoard.put("h8", null);
+					chessBoard.put("f8", "B_R");
+					List<String> coin=coinPositions.get("B_R");
+					coin.remove("h8");
+					coin.add("f8");
+				}
+				if(movePosition.equals("c1")&&whiteKingMove==0) {
+					chessBoard.put("a8", null);
+					chessBoard.put("d8", "B_R");
+					List<String> coin=coinPositions.get("B_R");
+					coin.remove("a8");
+					coin.add("d8");
+				}
+				blackKingMove++;
+			}
+			
 			String piece2 = chessBoard.get(movePosition);
 			chessBoard.put(movePosition, piece);
+			
 			chessBoard.put(currentPosition, null);
 			List<String> pieceOne = coinPositions.get(piece);
 			List<String> pieceTwo = coinPositions.get(piece2);
@@ -364,6 +418,29 @@ public class Chess {
 		      
 		  }
 		  
+		  }
+		  String piece=chessBoard.get(position);
+		  char cols=position.charAt(0);
+		  int rows=Integer.parseInt(position.charAt(1)+"");
+		  if(piece.startsWith("W")&&whiteKingMove==0) {
+			  if(chessBoard.get((char)(cols+1)+""+rows)==null&&chessBoard.get((char)(cols+2)+""+rows)==null&&chessBoard.get((char)(cols+3)+""+rows).equals("W_R")&&whiteRookRightMove==0) {
+				 
+				 lis.add((char)(cols+2)+""+rows);
+			  }
+			  if(chessBoard.get((char)(cols-1)+""+rows)==null&&chessBoard.get((char)(cols-2)+""+rows)==null&&chessBoard.get((char)(cols-3)+""+rows)==null&&chessBoard.get((char)(cols-4)+""+rows).equals("W_R")&&whiteRookLeftMove==0) {
+					
+				  lis.add((char)(cols-2)+""+rows);
+				  }
+		  }
+		  if(piece.startsWith("B")&&blackKingMove==0) {
+			  if(chessBoard.get( (char) (cols+1)+""+rows)==null&&chessBoard.get((char)(cols+2)+""+rows)==null&&chessBoard.get((char)(cols+3)+""+rows).equals("B_R")&&blackRookRightMove==0) {
+				 
+				 lis.add((char)(cols+2)+""+rows);
+			  }
+			  if(chessBoard.get( (char) (cols-1)+""+rows)==null&&chessBoard.get((char)(cols-2)+""+rows)==null&&chessBoard.get((char)(cols-3)+""+rows)==null&&chessBoard.get((char)(cols-4)+""+rows).equals("B_R")&&blackRookLeftMove==0) {
+					
+					 lis.add((char)(cols-2)+""+rows);
+				  }
 		  }
 		  return lis;
 
@@ -690,32 +767,32 @@ public class Chess {
 
 	public boolean isWhiteKingCheck() throws Exception {
 		List<String> whiteKingPosition = coinPositions.get("W_K");
-		Set<String> pieces = coinPositions.keySet();
-		for (String piece : pieces) {
-			if (piece.startsWith("B")) {
-				List<String> lis = coinPositions.get(piece);
-				for (int i = 0; i < lis.size(); i++) {
-
-					if (getPosition(lis.get(i)).contains(whiteKingPosition.get(0) + " can be captured")) {
-						return true;
-					}
-
-				}
-			}
+		if(getCoinPositions(whiteKingPosition,"B")) {
+			return true;
 		}
+		
+
 		return false;
 
 	}
-
+    
 	public boolean isBlackKingCheck() throws Exception {
 		List<String> blackKingPosition = coinPositions.get("B_K");
-		Set<String> pieces = coinPositions.keySet();
+		if(getCoinPositions(blackKingPosition,"W")) {
+			return true;
+		}
+
+		return false;
+
+	}
+	public boolean getCoinPositions(List<String> kingPosition,String color) throws Exception {
+    	Set<String> pieces = coinPositions.keySet();
 		for (String piece : pieces) {
-			if (piece.startsWith("W")) {
+			if (piece.startsWith(color)) {
 				List<String> lis = coinPositions.get(piece);
 				for (int i = 0; i < lis.size(); i++) {
 
-					if (getPosition(lis.get(i)).contains(blackKingPosition.get(0) + " can be captured")) {
+					if (getPosition(lis.get(i)).contains(kingPosition.get(0) + " can be captured")) {
 						return true;
 					}
 
@@ -723,34 +800,13 @@ public class Chess {
 			}
 		}
 		return false;
+    }
 
-	}
-
-	public boolean isBlackKingCheck(String position) throws Exception {
-
-		Set<String> pieces = coinPositions.keySet();
-		for (String piece : pieces) {
-			if (piece.startsWith("W")) {
-				List<String> lis = coinPositions.get(piece);
-				for (int i = 0; i < lis.size(); i++) {
-
-					if (getPosition(lis.get(i)).contains(position + " can be captured")
-							|| getPosition(lis.get(i)).contains(position)) {
-						return true;
-					}
-
-				}
-			}
-		}
-		return false;
-
-	}
-
-	public boolean isWhiteKingCheck(String position) throws Exception {
+	public boolean isKingCheck(String position,String color) throws Exception {
 
 		Set<String> pieces = coinPositions.keySet();
 		for (String piece : pieces) {
-			if (piece.startsWith("B")) {
+			if (piece.startsWith(color)) {
 				List<String> lis = coinPositions.get(piece);
 				for (int i = 0; i < lis.size(); i++) {
 
@@ -782,7 +838,7 @@ public class Chess {
 				temp2 = chessBoard.get(temp);
 				chessBoard.put(temp, "W_K");
 			}
-			if (!isWhiteKingCheck(temp)) {
+			if (!isKingCheck(temp,"B")) {
 				return false;
 			}
 			if (!flag) {
@@ -814,7 +870,7 @@ public class Chess {
 				temp2 = chessBoard.get(temp);
 				chessBoard.put(temp, "B_K");
 			}
-			if (!isBlackKingCheck(temp)) {
+			if (!isKingCheck(temp,"W")) {
 				return false;
 			}
 			if (!flag) {
@@ -864,6 +920,7 @@ public class Chess {
 		}
 
 	}
+	
     
 	private void checkPosition(String position) throws Exception {
 		if (chessBoard.get(position) == null) {

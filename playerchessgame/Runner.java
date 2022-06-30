@@ -1,5 +1,7 @@
 package playerchessgame;
 
+import java.util.InputMismatchException;
+
 import java.util.List;
 
 import java.util.Scanner;
@@ -10,7 +12,7 @@ public class Runner {
 		Scanner sc = new Scanner(System.in);
 		Chess ch = new Chess();
 		ch.initialSetUp();
-		// System.out.println(ch.getPosition("d7"));
+		
 		int i = 0;
 
 		boolean flags = true;
@@ -25,7 +27,7 @@ public class Runner {
 				try {
 					choice = sc.nextInt();
 
-				} catch (Exception e) {
+				} catch (InputMismatchException e) {
 					System.out.println("Enters numbers only");
 
 				}
@@ -36,6 +38,7 @@ public class Runner {
 				try {
 					ch.reverse();
 				} catch (Exception e) {
+					//e.printStackTrace();
 					System.out.println(e.getMessage());
 
 				}
@@ -111,6 +114,7 @@ public class Runner {
 						System.out.println("Now a time,Black King is Check");
 					}
 				} catch (Exception e) {
+					//e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
 
@@ -119,7 +123,8 @@ public class Runner {
 				try {
 					choice1 = sc.nextInt();
 
-				} catch (Exception e) {
+				} catch (InputMismatchException e) {
+					//e.printStackTrace();
 					System.out.println("Enters numbers only");
 
 				}
@@ -131,6 +136,7 @@ public class Runner {
 					ch.reverse();
 					flags = false;
 				} catch (Exception e) {
+					//e.printStackTrace();
 					System.out.println(e.getMessage());
 
 				}
@@ -166,6 +172,7 @@ public class Runner {
 								System.out.println("Choose only black coin to move");
 							}
 						} catch (Exception e) {
+							//e.printStackTrace();
 							System.out.println(e.getMessage());
 						}
 					}
@@ -200,6 +207,7 @@ public class Runner {
 						System.out.println("Now a time,White King is Check");
 					}
 				} catch (Exception e) {
+					//e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
 
