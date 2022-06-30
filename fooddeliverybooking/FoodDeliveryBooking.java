@@ -61,7 +61,6 @@ public class FoodDeliveryBooking {
 		bookingId++;
 		executive1.setLastTrip(bookingId);
 		addHistory(bookingId,executive1.getExecutiveName(),restaurant,destination,findAddBetweenTwoTimes(pickUpTime,15),findAddBetweenTwoTimes(pickUpTime,45),50);
-		
 		executive1.setLastDeliveryLocation(destination);
 		executive1.setTotal(executive1.getAllowance()+executive1.getDeliveryCharge());
 	

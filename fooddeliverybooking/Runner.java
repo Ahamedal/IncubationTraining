@@ -29,8 +29,7 @@ public class Runner {
 			char restaurant=sc.next().charAt(0);
 			System.out.println("Enter your deliveryLocation(A,B,C,D,E)");
 			char delivery=sc.next().charAt(0);
-			
-			System.out.println("Enter Your time");
+		    System.out.println("Enter Your time");
 			double pickUpTime=sc.nextDouble();
 			double dropTime=fd.findAddBetweenTwoTimes(pickUpTime,45);
 			System.out.println(fd.foodBooking(restaurant, delivery,pickUpTime, dropTime,cusId));
