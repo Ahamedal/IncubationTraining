@@ -2,6 +2,7 @@ package flightticketbooking;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,51 +109,60 @@ public class FlightTicketBooking {
   }
   public Map<String,String> seatingArrangements(List<Integer> list)throws Exception {
 	  objectCheck(list);
-	 
-	  Map<String,String> businessClass=new HashMap<>();
-	  
-	  for(int i=1;i<=list.get(3);i++) {
-		  String left="W";
-		  String middle="A";
-		  String right="A";
-		  
+	   int totalColumns=list.size()-1;
+	  Map<String,String> businessClass=new LinkedHashMap<>();
+	  int size=list.get(list.size()-1);
+	  for(int i=0;i<size;i++) {
 		  int column=65;
-		  char c=(char) column;
-		  for(int j=0;j<list.get(0);j++) {
-			  if(j==list.get(0)-1) {
-				  left="A";
-			  }
-			 c=(char) column;
-			 String str=""+i+"_"+c;
-			 businessClass.put(str, left);
-			 left="M";
-			 column++;
-			 
-		  }
+		  for(int t=0;t<totalColumns;t++)    {
+			 if(t==0) {
+		     forLeftSeatArrangement(businessClass,"W",i+1,list.get(t),column);
+			 }
+			 else  if(t==totalColumns-1) {
+		 
+			  forRightSeatArrangement(businessClass,"A",i+1,list.get(t),column);
+			 }
+		 
+			 else {
+			  forLeftSeatArrangement(businessClass,"A",i+1,list.get(t),column);
+			 }
+			 column+=list.get(t);
 		  
-		  for(int k=0;k<list.get(1);k++) {
-			  if(k==list.get(1)-1) {
-				  middle="A";
-			  }
-			     c=(char) column;
-				 String str=""+i+"_"+c;
-				 businessClass.put(str, middle);
-				 middle="M";
-				 column++;
-		  }
-		  for(int l=0;l<list.get(2);l++) {
-			  if(l==list.get(2)-1) {
-				  right="W";
-			  }
-			     c=(char) column;
-				 String str=""+i+"_"+c;
-				 businessClass.put(str, right);
-				 middle="M";
-				 column++;
-		  }
+		 }
+
 	  }
 	  return businessClass;
   }
+  public void forLeftSeatArrangement(Map<String,String> businessClass,String left,int i,int size,int column) {
+	  
+	  char c=(char) column;
+	  for(int j=0;j<size;j++) {
+		  if(j==size-1) {
+			  left="A";
+		  }
+		 c=(char) column;
+		 String str=""+i+"_"+c;
+		 businessClass.put(str, left);
+		 left="M";
+		 column++;
+		 
+	  }
+  }
+
+  public void forRightSeatArrangement(Map<String,String> businessClass,String right,int i,int size,int column) {
+	  char c=(char) column;
+	  for(int l=0;l<size;l++) {
+		  if(l==size-1) {
+			  right="W";
+		  }
+		     c=(char) column;
+			 String str=""+i+"_"+c;
+			 businessClass.put(str, right);
+			 right="M";
+			 column++;
+	  }
+  }
+  
   public Map<String,String> availableTickets(int flightNumber,String ticketType)throws Exception{
 	  checkFlightNumber(flightNumber);
 	  stringCheck(ticketType);

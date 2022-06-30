@@ -47,8 +47,8 @@ public class FileLayer {
 	void createAndWriteFile(String path1) {
 		
 		try(FileWriter fw=new FileWriter(path+"/"+path1);){
-			fw.write("Business:{2,3,2}, 10\n");
-			fw.write("Economy:{3,4,4}, 10");
+			fw.write("Business:{2,3,2,2}, 10\n");
+			fw.write("Economy:{3,4,4,4}, 10");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
