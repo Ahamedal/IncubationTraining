@@ -1,9 +1,12 @@
 package fooddeliverybooking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
 
 	private int customerId;
-	private int bookingId;
+	private List<Integer> bookingIds=new ArrayList<>();
 	private char orderRestaurant;
 	private char destination;
 	private char time;
@@ -14,11 +17,12 @@ public class Customer {
 	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
-	public int getBookingId() {
-		return bookingId;
+	
+	public List<Integer> getBookingIds() {
+		return bookingIds;
 	}
-	public void setBookingId(int bookingId) {
-		this.bookingId = bookingId;
+	public void setBookingIds(List<Integer> bookingIds) {
+		this.bookingIds = bookingIds;
 	}
 	public char getOrderRestaurant() {
 		return orderRestaurant;

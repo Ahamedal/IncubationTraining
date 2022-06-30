@@ -2,13 +2,20 @@ package fooddeliverybooking;
 
 public class DeliveryExecutives {
 	private String executiveName;
-	private char lastDeliveryLocation;
 	private int allowance;
 	private int deliveryCharge;
 	private int total;
 	private double freeTime=6.00;
+	private int lastTrip;
+	private char lastDeliveryLocation;
 	
 	
+	public int getLastTrip() {
+		return lastTrip;
+	}
+	public void setLastTrip(int lastTrip) {
+		this.lastTrip = lastTrip;
+	}
 	public char getLastDeliveryLocation() {
 		return lastDeliveryLocation;
 	}
