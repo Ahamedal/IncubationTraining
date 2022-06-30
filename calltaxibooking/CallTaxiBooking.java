@@ -1,11 +1,8 @@
 package calltaxibooking;
 
 import java.sql.Date;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +12,7 @@ public class CallTaxiBooking {
 
 	List<Taxi> taxi = new ArrayList<>();
 	List<Character> points = new ArrayList<>();
+	
 	Map<Integer, List<TaxiHistory>> taxiHistory = new HashMap<>();
 	int taxiNo = 0;
 
@@ -52,8 +50,7 @@ public class CallTaxiBooking {
 		nearestTaxi.setCurrentPosition(dropPoint);
 		double earned = nearestTaxi.getAmountEarned();
 		nearestTaxi.setAmountEarned(earned + amount);
-		TaxiHistory taxiHistory = historySetter(pickUpPoint, dropPoint, pickUpTime, dropTime, amount, customerId,
-				bookingType);
+		TaxiHistory taxiHistory = historySetter(pickUpPoint, dropPoint, pickUpTime, dropTime, amount, customerId,bookingType);
 		addHistory(taxiHistory, nearestTaxi);
 		return "Booked Successfully\nalotted Taxi is Taxi_" + nearestTaxi.getTaxiNo() + "\n";
 
@@ -204,6 +201,9 @@ public class CallTaxiBooking {
 			array1[1] += "0";
 		}
 		String[] array2 = String.valueOf(pickUpTime).split("[.]");
+		if (array2[1].length() == 1) {
+			array2[1] += "0";
+		}
 		int dropTime2 = Integer.parseInt(array1[1]) + Integer.parseInt(array2[1]);
 		double ans1 = 0.00f;
 		double k1 = dropTime2 / 60;
