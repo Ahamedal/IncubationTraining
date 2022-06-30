@@ -1,5 +1,0 @@
-UserName			EncrptedPassword		Name			MobileNumber			Credits
-aa			bbCC22			ahamed			12			2400
-abc@zoho.com			ApipNbjm			Rahul			6385224645			20
-abc			bbCC22			ahamed			12			2400
-123@zoho.com			ApipNbjm			Anitha			6385224645			0
