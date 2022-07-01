@@ -383,19 +383,18 @@ public class Chess {
 		return lis;
 	}
 
-	public List<String> movedPositionKing(String position) {
+	public List<String> movedPositionKing(String position) throws Exception {
 		List<String> lis = new ArrayList<>();
 		 int rowMoves[]= {1,-1,0,0,1,-1,1,-1};
 		  int colMoves[]= {0,0,1,-1,1,-1,-1,1};
 		  String string="";
 		  for( int i=0;i<8;i++ )
 		  {
-		 boolean flag=true;
 		  char cols=(char) ( position.charAt(0)+colMoves[i] );
 		  
 		  int rows=( Integer.parseInt( position.charAt(1)+"" )+rowMoves[i] );
 		  
-		  if( rows>0 && rows<=8 && cols>='a' && cols<='h' &&flag)
+		  if( rows>0 && rows<=8 && cols>='a' && cols<='h' )
 		  {      
 		      string=cols+""+rows ;
 		      if (!position.equals(string)) {
@@ -406,7 +405,7 @@ public class Chess {
 						if (checkOppositeCoin(position, string)) {
 							lis.add(string + " can be captured");
 						}
-						flag = false;
+						
 					}
 				}
 		       

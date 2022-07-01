@@ -26,13 +26,14 @@ public class Runner {
 
 				try {
 					choice = sc.nextInt();
+					sc.nextLine();
 
 				} catch (InputMismatchException e) {
 					System.out.println("Enters numbers only");
-
+					sc.nextLine();
 				}
 
-				sc.nextLine();
+				
 			}
 			if (choice == 1) {
 				try {
@@ -122,10 +123,12 @@ public class Runner {
 
 				try {
 					choice1 = sc.nextInt();
+					
 
 				} catch (InputMismatchException e) {
 					//e.printStackTrace();
 					System.out.println("Enters numbers only");
+					
 
 				}
 
