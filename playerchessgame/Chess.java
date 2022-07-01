@@ -470,7 +470,6 @@ public class Chess {
 				}
 			}
 
-			// string=""+postion.charAt(0)+(8-row);
 			checkOppositeCoinForPawn(position, row, col, li);
 
 		} else {
@@ -558,162 +557,43 @@ public class Chess {
 
 	}
 
-	public List<String> movedPositionKnight(int row, int col, String postion) {
+	public List<String> movedPositionKnight(int row, int col, String position) {
+		List<String> knightMoves=new ArrayList<>();
+		 int rowMoves[]= {1,1,-1,-1,2,2,-2,-2};
+		  int colMoves[]= {2,-2,2,-2,1,-1,1,-1};
+		  String string="";
+		 for( int i=0;i<8;i++ ){
+		
+		  char cols=(char) ( position.charAt(0)+colMoves[i] );
+		  
+		  int rows=( Integer.parseInt( position.charAt(1)+"" )+rowMoves[i] );
+		  
+		  if( rows>0 && rows<=8 && cols>='a' && cols<='h'){      
+		      string=cols+""+rows ;
+		      if (!position.equals(string)) {
+					if (!checkAbstract(string)) {
+						knightMoves.add(string);
 
-		List<String> l = new ArrayList<>();
-		String string = "";
-
-		for (int di = 1; di <= 4; di++) {
-			int rows = row;
-			int colums = col;
-			if (di == 1) {
-				rows++;
-				colums++;
-				for (int d = 1; d <= 2; d++) {
-					int r = rows;
-					int c = colums;
-					if (d == 1) {
-						c++;
-						if (c < 8 && r >= 0 && r < 8) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
+					} else {
+						if (checkOppositeCoin(position, string)) {
+							knightMoves.add(string + " can be captured");
 						}
-					}
-					if (d == 2) {
-						r++;
-						if (r < 8) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
-						}
+						
 					}
 				}
+		       
+		       
+		        cols+=colMoves[i] ;
+		  
+		        rows+=rowMoves[i] ;
+		        
+		      
+		  }
+		  
+		  }
 
-			}
-			if (di == 2) {
-				rows--;
-				colums++;
-				for (int d = 1; d <= 2; d++) {
-					int r = rows;
-					int c = colums;
-					if (d == 1) {
-						c++;
-						if (c < 8 && r >= 0) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
-						}
-					}
-					if (d == 2) {
-						r--;
-						if (r >= 0) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
-						}
-					}
-				}
-			}
-			if (di == 3) {
-				rows--;
-				colums--;
-				for (int d = 1; d <= 2; d++) {
-					int r = rows;
-					int c = colums;
-					if (d == 1) {
-						c--;
-						if (c >= 0 && r >= 0) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
-						}
-					}
-					if (d == 2) {
-						r--;
-						if (r >= 0) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
-						}
-					}
-				}
-			}
-			if (di == 4) {
-				rows++;
-				colums--;
-				for (int d = 1; d <= 2; d++) {
-					int r = rows;
-					int c = colums;
-					if (d == 1) {
-						c--;
-						if (c >= 0 && r < 8) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
-						}
-					}
-					if (d == 2) {
-						r++;
-						if (r < 8) {
-							char ch = (char) (97 + c);
-							string = "" + ch + (8 - r);
-							if (!checkAbstract(string)) {
-								l.add(string);
-							} else {
-								if (checkOppositeCoin(postion, string)) {
-									l.add(string + " can be captured");
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 
-		return l;
+		return knightMoves;
 
 	}
 
@@ -824,25 +704,29 @@ public class Chess {
 
 	public boolean isWhiteKingCheckMate() throws Exception {
 		List<String> whiteKingPosition = coinPositions.get("W_K");
-		String temp2 = null;
+		
 
 		String position = whiteKingPosition.get(0);
 		List<String> lis = getPosition(position);
 
-		for (int i = 0; i < lis.size(); i++) {
+		for (int i = 0; i < lis.size(); i++)
+		{
+			String coin = null;
 			String temp = lis.get(i);
 			boolean flag = true;
-			if (temp.contains(" can be captured")) {
+			if (temp.contains(" can be captured")) 
+			{
 				flag = false;
 				temp = temp.replace(" can be captured", "");
-				temp2 = chessBoard.get(temp);
+				coin = chessBoard.get(temp);
 				chessBoard.put(temp, "W_K");
 			}
 			if (!isKingCheck(temp,"B")) {
+				chessBoard.put(temp, coin);
 				return false;
 			}
 			if (!flag) {
-				chessBoard.put(temp, temp2);
+				chessBoard.put(temp, coin);
 			}
 		}
 		if (lis.size() == 0) {
@@ -856,25 +740,27 @@ public class Chess {
 
 	public boolean isBlackKingCheckMate() throws Exception {
 		List<String> whiteKingPosition = coinPositions.get("B_K");
-		String temp2 = null;
+		
 
 		String position = whiteKingPosition.get(0);
 		List<String> lis = getPosition(position);
 
 		for (int i = 0; i < lis.size(); i++) {
+			String coin = null;
 			String temp = lis.get(i);
 			boolean flag = true;
 			if (temp.contains(" can be captured")) {
 				flag = false;
 				temp = temp.replace(" can be captured", "");
-				temp2 = chessBoard.get(temp);
+				coin = chessBoard.get(temp);
 				chessBoard.put(temp, "B_K");
 			}
 			if (!isKingCheck(temp,"W")) {
+				chessBoard.put(temp, coin);
 				return false;
 			}
 			if (!flag) {
-				chessBoard.put(temp, temp2);
+				chessBoard.put(temp, coin);
 			}
 		}
 		if (lis.size() == 0) {
