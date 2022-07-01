@@ -12,9 +12,10 @@ public class CallTaxiBooking {
 
 	List<Taxi> taxi = new ArrayList<>();
 	List<Character> points = new ArrayList<>();
-	
+	Map<Integer, ShareBooking> shareBooking = new HashMap<>();
 	Map<Integer, List<TaxiHistory>> taxiHistory = new HashMap<>();
 	int taxiNo = 0;
+	int bookingId = 0;
 
 	public void addPoints() {
 		points.add('A');
@@ -32,7 +33,7 @@ public class CallTaxiBooking {
 	}
 
 	public String taxiBooking(char pickUpPoint, char dropPoint, double pickUpTime, double dropTime, int customerId,
-			int bookingType, int amount) throws Exception {
+			int bookingType, int amount, boolean flag) throws Exception {
 		if (pickUpPoint < 'A' || pickUpPoint > 'F' || dropPoint < 'A' || dropPoint > 'F') {
 			return "Not Available";
 		}
@@ -45,14 +46,30 @@ public class CallTaxiBooking {
 		if (availableTaxi.size() == 0) {
 			return "All taxi Busy,Booking Rejected";
 		}
+
 		Taxi nearestTaxi = nearestTaxi(availableTaxi, pickUpPoint);
 		nearestTaxi.setFreeTime(dropTime);
+		bookingId++;
+		if (flag) {
+			ShareBooking share = new ShareBooking();
+			share.setAvailableSpace(share.getAvailableSpace() - 1);
+			share.setPickUpPoint(pickUpPoint);
+			share.setDropPoint(dropPoint);
+			share.setBookingId(bookingId);
+			Map<Character, Double> availablePoint = share.getAvalaibleShare();
+			addAvailablePoint(availablePoint, pickUpPoint, dropPoint, pickUpTime);
+			shareBooking.put(nearestTaxi.getTaxiNo(), share);
+		}
+
 		nearestTaxi.setCurrentPosition(dropPoint);
 		double earned = nearestTaxi.getAmountEarned();
 		nearestTaxi.setAmountEarned(earned + amount);
-		TaxiHistory taxiHistory = historySetter(pickUpPoint, dropPoint, pickUpTime, dropTime, amount, customerId,bookingType);
+
+		TaxiHistory taxiHistory = historySetter(pickUpPoint, dropPoint, pickUpTime, dropTime, amount, customerId,
+				bookingType, bookingId);
 		addHistory(taxiHistory, nearestTaxi);
-		return "Booked Successfully\nalotted Taxi is Taxi_" + nearestTaxi.getTaxiNo() + "\n";
+		return "Booked Successfully\nYour booking Id is " + bookingId + " alotted Taxi is Taxi_"
+				+ nearestTaxi.getTaxiNo() + "\n";
 
 	}
 
@@ -68,9 +85,9 @@ public class CallTaxiBooking {
 	}
 
 	public TaxiHistory historySetter(char pickUpPoint, char dropPoint, double pickUpTime, double dropTime, int amount,
-			int custoerId, int bookingType) {
+			int custoerId, int bookingType, int bookingId) {
 		TaxiHistory taxiHistory = new TaxiHistory();
-		taxiHistory.setBookingId(custoerId);
+		taxiHistory.setBookingId(bookingId);
 		taxiHistory.setCustomerId(custoerId);
 		taxiHistory.setPickUpPoint(pickUpPoint);
 		taxiHistory.setDropPoint(dropPoint);
@@ -215,6 +232,48 @@ public class CallTaxiBooking {
 		ans = ((int) pickUpTime) + ans1;
 
 		return ans;
+	}
+
+	public int isShareAvailable(char pickUp, char drop, double pickUpTime) {
+		Set<Integer> taxiNos = shareBooking.keySet();
+		for (int taxiNo : taxiNos) {
+			ShareBooking sb = shareBooking.get(taxiNo);
+			if (sb.getDropPoint() == drop && sb.getAvailableSpace() != 0) {
+				Map<Character, Double> availableShare = sb.getAvalaibleShare();
+				if (availableShare.get(pickUp) != null && availableShare.get(pickUp) == pickUpTime) {
+					return taxiNo;
+				}
+			}
+		}
+		return 0;
+	}
+
+	public void addAvailablePoint(Map<Character, Double> availableSharePoints, char pickUpPoint, char dropPoint,
+			double pickUpTime) {
+		if (pickUpPoint < dropPoint) {
+			for (int i = pickUpPoint; i < dropPoint; i++) {
+
+				availableSharePoints.put((char) (i), pickUpTime);
+				pickUpTime = calculateDropTime(pickUpTime, 15);
+			}
+		} else {
+			for (int i = dropPoint; i > pickUpPoint; i--) {
+
+				availableSharePoints.put((char) (i), pickUpTime);
+				pickUpTime = calculateDropTime(pickUpTime, 15);
+			}
+		}
+	}
+
+	public void setHistoryForShare(char pickUp, char drop, double pickUpTime, int taxiNo, int amount, int customerId,
+			int bookingType) throws Exception {
+		Taxi tax = taxi.get(taxiNo - 1);
+		tax.setAmountEarned(tax.getAmountEarned() + amount);
+		ShareBooking shareBook = shareBooking.get(tax.getTaxiNo());
+		TaxiHistory taxiHistory = historySetter(pickUp, drop, pickUpTime, tax.getFreeTime(), amount, customerId,
+				bookingType, shareBook.getBookingId());
+		addHistory(taxiHistory, tax);
+
 	}
 
 	private void objectCheck(Object object) throws Exception {
