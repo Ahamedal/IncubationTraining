@@ -37,6 +37,7 @@ public class Runner {
 			}
 			catch(InputMismatchException e) {
 				System.out.println("Enter numbers only");
+				sc.nextLine();
 			}
 			catch(Exception e) {
 				System.out.println(e.getMessage());

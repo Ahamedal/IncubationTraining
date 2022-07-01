@@ -1,7 +1,6 @@
 package fooddeliverybooking;
 
 import java.util.Date;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class FoodDeliveryBooking {
 		
 	}
 	public String foodBooking(char restaurant, char destination, double pickUpTime, double dropTime, int customerId) throws Exception {
-		if (restaurant < 'A' || restaurant > 'F' || destination < 'A' || destination > 'F') {
+		if (restaurant < 'A' || restaurant > 'E' || destination < 'A' || destination > 'E') {
 			return "Not Available";
 		}
 		List<DeliveryExecutives> availableExecutives = new ArrayList<>();
@@ -67,7 +66,8 @@ public class FoodDeliveryBooking {
 		return "Booked Successfully\nBooking id is "+bookingId+"\n"+executiveDetails+"\nalotted Delivery Exceutive is " +executive1.getExecutiveName()+ "\n";
 		}
 	}
-	public void addHistory(int bookingId,String executiveName,char restaurant,char destination,double pickUpTime,double deliveryTime,int charge) {
+	public void addHistory(int bookingId,String executiveName,char restaurant,char destination,double pickUpTime,double deliveryTime,int charge) throws Exception {
+		stringCheck(executiveName);
 		DeliveryHistory history=new DeliveryHistory();
 		history.setTrip(bookingId);
 		history.setExecutiveName(executiveName);
@@ -184,28 +184,7 @@ public class FoodDeliveryBooking {
 
 		return ans;
 
-//		SimpleDateFormat format=new SimpleDateFormat("HH:mm");
-//		String ans=null;
-//		try {
-//			String string=String.valueOf(freeTime);
-//			string=string.replace(".", ":");
-//			String[] array=string.split(":");
-//			if(array[1].length()==1) {
-//				string+="0";
-//			}
-//			Date date1=format.parse(string);
-//			Date date2=format.parse(addTime);
-//			long difference=date1.getTime()+date2.getTime();
-//			Date date3=new Date(difference);
-//			ans=format.format(date3);
-//			
-//			ans=ans.replace(":", ".");
-//			
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return Double.parseDouble(ans);
+
 	}
 	public boolean availableTimeForPickup(double pickUpTime,DeliveryExecutives executive) {
 	double freeTime=executive.getFreeTime();
@@ -236,5 +215,15 @@ public class FoodDeliveryBooking {
 		}
 		return string;
 	}
+	 private void stringCheck(String str1) throws Exception{
+		  if(str1==null||str1.isEmpty()) {
+			  throw new Exception("String cannot be null or empty");
+		  }
+	  }
+	  private void objectCheck(Object obj)throws Exception{
+		  if(obj==null) {
+			  throw new Exception(obj+"Cannot be null");
+		  }
+	  }
 	
 }
