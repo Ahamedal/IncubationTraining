@@ -58,7 +58,9 @@ public class Runner {
 					} else if (coinPosition.equals("Exit")) {
 						System.out.println("Exit the game");
 						System.exit(0);
-					} else {
+					}
+					
+					else {
 						try {
 
 							if (ch.checkPlayerMoveOppositeCoin(coinPosition, 'W')) {
@@ -94,7 +96,18 @@ public class Runner {
 						System.out.println("Exit the game");
 						System.exit(0);
 					}
-
+					else if(movePosition.contains("help")) {
+						String[] array=movePosition.split("--");
+						try {
+							List<String> help=ch.getHelp(array[0],"W",coinPosition);
+							for(int k=0;k<help.size();k++) {
+								System.out.println(help.get(k));
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					else {
 						if (ch.move(coinPosition, movePosition, position)) {
 							System.out.println(ch.printingBoard());
@@ -191,7 +204,21 @@ public class Runner {
 					} else if (coinPosition1.equals("Exit")) {
 						System.out.println("Exit the game");
 						System.exit(0);
-					} else {
+					} 
+					else if(movePosition1.contains("help")) {
+						String[] array=movePosition1.split("--");
+						try {
+							List<String> help=ch.getHelp(array[0],"B",coinPosition1);
+							for(int k=0;k<help.size();k++) {
+								System.out.println(help.get(k));
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+					else {
 						if (ch.move(coinPosition1, movePosition1, position1)) {
 							System.out.println(ch.printingBoard());
 							flag1 = false;
