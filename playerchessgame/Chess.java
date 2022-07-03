@@ -9,7 +9,7 @@ import java.util.List;
 public class Chess {
 	int blackKingMove = 0;
 	int whiteKingMove = 0;
-	int blackRookLeftMove = 0; // For castling
+	int blackRookLeftMove = 0;                        // For castling
 	int blackRookRightMove = 0;
 	int whiteRookLeftMove = 0;
 	int whiteRookRightMove = 0;
@@ -406,8 +406,8 @@ public class Chess {
 		}
 		String piece = chessBoard.get(position);
 		char cols = position.charAt(0);
-		int rows = Integer.parseInt(position.charAt(1) + "");
-		if (piece.startsWith("W") && whiteKingMove == 0) {
+		int rows = Integer.parseInt(position.charAt(1) + "");                 
+		if (piece.startsWith("W") && whiteKingMove == 0) {                         //For castling
 			if (chessBoard.get((char) (cols + 1) + "" + rows) == null
 					&& chessBoard.get((char) (cols + 2) + "" + rows) == null
 					&& chessBoard.get((char) (cols + 3) + "" + rows).equals("W_R") && whiteRookRightMove == 0) {
@@ -494,7 +494,7 @@ public class Chess {
 
 	public void checkOppositeCoinForPawn(String postion, int rows, char columns, List<String> li) {
 		String string=""+columns+rows;
-		if (rows >= 0 && rows < 8 && columns >= 'a' && columns <= 'h'&&checkOppositeCoin(postion, string)) {
+		if (rows > 0 && rows <= 8 && columns >= 'a' && columns <= 'h'&&checkOppositeCoin(postion, string)) {
 			li.add(string + " can be captured");
 			
 		}

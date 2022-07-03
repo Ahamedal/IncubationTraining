@@ -50,7 +50,7 @@ public class Runner {
 				List<String> position = null;
 				while (true) {
 					System.out.println(
-							"Enter choose any one of coin position or Enter Print for print board or Enter exit for exit game");
+							"Enter choose any one of coin position or Enter Print for print board or Enter exit  for exit game");
 					coinPosition = sc.nextLine();
 
 					if (coinPosition.equals("Print")) {
@@ -88,7 +88,7 @@ public class Runner {
 				boolean flag = true;
 				while (flag) {
 					System.out
-							.println("Enter move position or Enter Print for print board or Enter exit for exit game");
+							.println("Enter move position or Enter Print for print board or Enter exit for exit game or Enter help(coin Position--help)");
 					String movePosition = sc.nextLine();
 					if (movePosition.equals("Print")) {
 						System.out.println(ch.printingBoard());
@@ -197,7 +197,7 @@ public class Runner {
 				boolean flag1 = true;
 				while (flag1) {
 					System.out
-							.println("Enter move position or Enter Print for print board or Enter exit for exit game");
+							.println("Enter move position or Enter Print for print board or Enter exit for exit game or Enter help(coinpoisition--help)");
 					String movePosition1 = sc.nextLine();
 					if (coinPosition1.equals("Print")) {
 						System.out.println(ch.printingBoard());
