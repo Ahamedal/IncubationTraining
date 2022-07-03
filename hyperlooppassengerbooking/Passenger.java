@@ -5,7 +5,16 @@ public class Passenger {
 	private String name;
 	private int age;
 	private char destination;
+	private String fastestRoute;
 	
+	
+	
+	public String getFastestRoute() {
+		return fastestRoute;
+	}
+	public void setFastestRoute(String fastestRoute) {
+		this.fastestRoute = fastestRoute;
+	}
 	public String getName() {
 		return name;
 	}
@@ -23,6 +32,10 @@ public class Passenger {
 	}
 	public void setDestination(char destination) {
 		this.destination = destination;
+	}
+	@Override
+	public String toString() {
+		return "" + name +"\t"+  fastestRoute + "";
 	}
 	
 	

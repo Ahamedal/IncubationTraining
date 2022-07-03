@@ -12,6 +12,7 @@ public class HyperloopPassengerBooking {
 	Map<Character,Map<Character,Integer>> connectingRoutes=new HashMap<>();
 	Map<Integer,List<Passenger>> passengers=new TreeMap<>();
 	
+	
 	public void initialSetUp() {
 		addConnectingRoutes('A','B',3);
 		addConnectingRoutes('A','C',7);
@@ -38,9 +39,12 @@ public class HyperloopPassengerBooking {
 			passengers.put(passenger.getAge(), listOfPassenger);
 		}
 		listOfPassenger.add(passenger);
+	
 	}
 	
-	public void getRoutes(char start,char end,int dis,String string,Map<Integer,String> ans) {
+	public void getRoutes(char start,char end,int dis,String string,Map<Integer,String> ans) throws Exception {
+		stringCheck(string);
+		objectCheck(ans);
 		if(start==end) {
 			ans.put(dis, string);
     		return;
@@ -55,52 +59,67 @@ public class HyperloopPassengerBooking {
 	    for(char p:point) {
 	    	string+=" "+p;
 	    	dis+=routes.get(p);
-	    	getRoutes(p,end,dis,string,ans);
+	    	
+	    	getRoutes(p,end,dis,string,ans);      //recursive call
+	    	
 	    	dis-=routes.get(p);
 	    	string=string.replace(p+"", "");
 	    }
 	    
 	
 	}
-	public void forCommandAddPassenger(String name,int age,char destination) {
+	public void forCommandAddPassenger(String name,int age,char destination,char startingPoint) throws Exception {
+		stringCheck(name);
 		Passenger passenger=new Passenger();
 		passenger.setName(name);
 		passenger.setAge(age);
 		passenger.setDestination(destination);
+		Map<Integer,String> fastestRoute=new TreeMap<>();
+		getRoutes(startingPoint,destination,0,String.valueOf(startingPoint),fastestRoute);
+		Set<Integer> routes=fastestRoute.keySet();
+		for(int route:routes) {
+			passenger.setFastestRoute(fastestRoute.get(route));
+			break;
+		}
 		addPassenger(passenger);
 	}
-	public List<Passenger> forCommandStartPOD(int size){
+	public List<Passenger> forCommandStartPOD(int size) throws Exception{
 		List<Passenger> selectPassenger=new ArrayList<>();
 		Set<Integer> ages= passengers.keySet();
 		List<Integer> temp=new ArrayList<>();
 		temp.addAll(ages);
+		
 		int j=0;
 		int l=1;
 		while(true) {
+			if(selectPassenger.size()==size||passengers.size()==0) {
+				break;
+			}
+		List<Passenger> passenger=passengers.get(temp.get(temp.size()-l));
 		
-		List<Passenger> passenger=passengers.get(temp.get(ages.size()-l));
-		if(selectPassenger.size()==size||passenger==null) {
-			break;
-		}
 		for(int i=0;i<passenger.size();i++) {
 			if(j==size) {
 				break;
 			}
 			selectPassenger.add(passenger.get(i));
+			remove(passenger.get(i));
 			j++;
 		
 		}
 		l++;
 		}
-		remove(selectPassenger);
+		
 		return selectPassenger;
 	}
-	public void remove(List<Passenger> selectPassenger) {
-		for(int i=0;i<selectPassenger.size();i++) {
-			Passenger passenger=selectPassenger.get(i);
+	public void remove(Passenger passenger) throws Exception {
+            objectCheck(passenger);
 			List<Passenger> pass=passengers.get(passenger.getAge());
 			pass.remove(passenger);
-		}
+			if(pass.size()==0) {
+				passengers.remove(passenger.getAge());
+				
+			}
+		
 	}
 	public List<Passenger> forCommandPrintQ() {
 		List<Passenger> passengerList=new ArrayList<>();
@@ -114,6 +133,15 @@ public class HyperloopPassengerBooking {
 		return passengerList;
 	}
 	
-
+    private void stringCheck(String string) throws Exception {
+    	if(string==null||string.isEmpty()) {
+    		throw new Exception("String cannot be null or empty");
+    	}
+    }
+    private void objectCheck(Object object) throws Exception {
+    	if(object==null) {
+    		throw new Exception("String cannot be null or empty");
+    	}
+    }
 	
 }
