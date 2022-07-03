@@ -64,17 +64,17 @@ int main()
         cout<<endl;
     }
 
-    int* ar=(int*)calloc(5,sizeof(int));
+    int* ar=(int*)calloc(row*col,sizeof(int));
     Leader leader;
     leader.countBuildings(ptr,ar,visited,row,col);
-    for(int i=0; i<5; i++)
+    for(int i=0; i<(row*col); i++)
     {
         cout<<ar[i]<<endl;
     }
 
     cout<<endl;
 
-    cout<<"Leadre of group is "<<leader.leaderOfGroup(ar);
+    cout<<"Leadre of group is "<<leader.leaderOfGroup(ar,row,col);
 
 
 

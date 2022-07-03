@@ -64,11 +64,12 @@ public:
         return false;
     }
 
-    int leaderOfGroup(int* ans)
+    int leaderOfGroup(int* ans,int rows,int columns)
     {
 
         int a=ans[0];
-        for(int i=0; i<5; i++)
+        int size=rows*columns;
+        for(int i=0; i<size; i++)
         {
 
             if(a<ans[i])
