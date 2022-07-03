@@ -13,15 +13,15 @@ public class HyperloopPassengerBooking {
 	Map<Integer,List<Passenger>> passengers=new TreeMap<>();
 	
 	
-	public void initialSetUp() {
-		addConnectingRoutes('A','B',3);
-		addConnectingRoutes('A','C',7);
-		addConnectingRoutes('B','D',2);
-		addConnectingRoutes('B','C',2);
-		addConnectingRoutes('B','E',5);
-		addConnectingRoutes('C','E',1);
-		addConnectingRoutes('D','E',3);
-	}
+//	public void initialSetUp() {
+//		addConnectingRoutes('A','B',3);
+//		addConnectingRoutes('A','C',7);
+//		addConnectingRoutes('B','D',2);
+//		addConnectingRoutes('B','C',2);
+//		addConnectingRoutes('B','E',5);
+//		addConnectingRoutes('C','E',1);
+//		addConnectingRoutes('D','E',3);
+//	}
 	public void addConnectingRoutes(char startingPoint,char endingPoint,int distance) {
 		
 		Map<Character,Integer> route=connectingRoutes.get(startingPoint);
@@ -42,7 +42,7 @@ public class HyperloopPassengerBooking {
 	
 	}
 	
-	public void getRoutes(char start,char end,int dis,String string,Map<Integer,String> ans) throws Exception {
+	private void getRoutes(char start,char end,int dis,String string,Map<Integer,String> ans) throws Exception {
 		stringCheck(string);
 		objectCheck(ans);
 		if(start==end) {
@@ -69,6 +69,7 @@ public class HyperloopPassengerBooking {
 	
 	}
 	public void forCommandAddPassenger(String name,int age,char destination,char startingPoint) throws Exception {
+		checkRoutes();
 		stringCheck(name);
 		Passenger passenger=new Passenger();
 		passenger.setName(name);
@@ -84,6 +85,7 @@ public class HyperloopPassengerBooking {
 		addPassenger(passenger);
 	}
 	public List<Passenger> forCommandStartPOD(int size) throws Exception{
+		checkRoutes();
 		List<Passenger> selectPassenger=new ArrayList<>();
 		Set<Integer> ages= passengers.keySet();
 		List<Integer> temp=new ArrayList<>();
@@ -111,7 +113,7 @@ public class HyperloopPassengerBooking {
 		
 		return selectPassenger;
 	}
-	public void remove(Passenger passenger) throws Exception {
+	private void remove(Passenger passenger) throws Exception {
             objectCheck(passenger);
 			List<Passenger> pass=passengers.get(passenger.getAge());
 			pass.remove(passenger);
@@ -121,7 +123,8 @@ public class HyperloopPassengerBooking {
 			}
 		
 	}
-	public List<Passenger> forCommandPrintQ() {
+	public List<Passenger> forCommandPrintQ() throws Exception {
+		checkRoutes();
 		List<Passenger> passengerList=new ArrayList<>();
 		Set<Integer> ages=passengers.keySet();
 		for(int age:ages) {
@@ -141,6 +144,11 @@ public class HyperloopPassengerBooking {
     private void objectCheck(Object object) throws Exception {
     	if(object==null) {
     		throw new Exception("String cannot be null or empty");
+    	}
+    }
+    private void checkRoutes() throws Exception {
+    	if(connectingRoutes.size()==0) {
+    		throw new Exception("Not initializing routes");
     	}
     }
 	
