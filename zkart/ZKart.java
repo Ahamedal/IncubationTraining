@@ -178,11 +178,12 @@ public class ZKart {
 		return false;
 	}
 
-	public void checkOutCard(List<Integer> produts, List<Integer> noOfOrderedItems) throws Exception {
-		objectCheck(produts);
+	public void checkOutCard(List<Integer> products, List<Integer> noOfOrderedItems) throws Exception {
+		objectCheck(products);
 		objectCheck(noOfOrderedItems);
-		for (int i = 0; i < produts.size(); i++) {
-			Product product = productInfo.get(produts.get(i));
+		for (int i = 0; i < products.size(); i++) {
+			checkProductNumber(products.get(i));
+			Product product = productInfo.get(products.get(i));
 			if (product.getStockOfProduct() >= noOfOrderedItems.get(i)) {
 				product.setStockOfProduct(product.getStockOfProduct() - noOfOrderedItems.get(i));
 			} else if (product.getStockOfProduct() > 0) {
@@ -190,7 +191,7 @@ public class ZKart {
 				noOfOrderedItems.add(i, product.getStockOfProduct());
 				product.setStockOfProduct(0);
 			} else {
-				produts.remove(i);
+				products.remove(i);
 				noOfOrderedItems.remove(i);
 			}
 		}
