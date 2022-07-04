@@ -619,6 +619,79 @@ public class Chess {
 		return false;
 
 	}
+	public boolean allCoinForCheckMate(String color) throws Exception {
+		for( String position:chessBoard.keySet()  )
+		  {
+			  String coin=chessBoard.get(position);
+			  
+			  if( coin!=null&& coin.startsWith(color) &&!coin.endsWith("K") && isBlockCheck( position , getPosition( position ) ,color )   )
+			  {
+				  return true;
+			  }
+			  
+		  }
+		  
+		  return false;
+	}
+	public boolean isBlockCheck(String position,List<String> allPositions,String color) throws Exception {
+		 for( int i=0;i<allPositions.size();i++  )
+		  {
+			  
+			  
+			  if(color.equals("W")) {
+			  if( moveWhiteCheck( position,allPositions.get(i) )  )
+			  {
+				  return true;
+			  }
+			  }
+			  else {
+				  if( moveBlackCheck( position,allPositions.get(i) )  )
+				  {
+					  return true;
+				  }  
+			  }
+			 
+			     
+		  }
+		   return false;
+	}
+	public boolean moveWhiteCheck(String currentPosition,String movePosition) throws Exception {
+		 if( movePosition.contains(" can be captured") )
+	     {
+	    	 movePosition=movePosition.replace(" can be captured", "");
+	     }
+		 String piece=chessBoard.get(currentPosition);
+		 String movePiece=chessBoard.get(movePosition);
+		 chessBoard.put(currentPosition,null);
+		 chessBoard.put(movePosition, piece);
+		 if(!isWhiteKingCheck()) {
+			 chessBoard.put(currentPosition, piece);
+			 chessBoard.put(movePosition, movePiece);
+			 return true;
+		 }
+		 chessBoard.put(currentPosition, piece);
+		 chessBoard.put(movePosition, movePiece);
+         return false;
+	}
+	public boolean moveBlackCheck(String currentPosition,String movePosition) throws Exception {
+		 if( movePosition.contains("captured") )
+	     {
+	    	 movePosition=movePosition.replace(" can be captured", "");
+	     }
+		 String piece=chessBoard.get(currentPosition);
+		 String movePiece=chessBoard.get(movePosition);
+		 chessBoard.put(currentPosition,null);
+		 chessBoard.put(movePosition, piece);
+		 if(!isBlackKingCheck()) {
+			 chessBoard.put(currentPosition, piece);
+			 chessBoard.put(movePosition, movePiece);
+			 return true;
+		 }
+		 chessBoard.put(currentPosition, piece);
+		 chessBoard.put(movePosition, movePiece);
+        return false;
+	}
+	
     
 	public boolean getCoinPositions(List<String> kingPosition, String color) throws Exception {
 		stringCheck(color);
