@@ -1,21 +1,17 @@
 package flightticketbooking;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
+
 
 public class Runner {
 	private static Passenger getPassenger(String name, String address, String seatType, String seat) {
 		Passenger passenger = new Passenger();
 		passenger.setAddress(address);
 		passenger.setName(name);
-
-		
-		passenger.setSeatType(seatType);
-		
-		
+        passenger.setSeatType(seatType);
 		passenger.setSeatNumber(seat);
 		return passenger;
 	}
@@ -69,6 +65,7 @@ public class Runner {
 					System.out.println("Flight Number");
 					int flightNumber = sc.nextInt();
 					sc.nextLine();
+					ft.checkFlightNumber(flightNumber);
 					System.out.println("Business/Economy");
 					String ticketType = sc.nextLine();
 					System.out.println(ft.availableTickets(flightNumber, ticketType));
@@ -107,6 +104,10 @@ public class Runner {
 					break;
 				}
 				}
+				catch(InputMismatchException e) {
+					System.out.println("Enter numbers only");
+					sc.nextLine();
+				}
 				catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -116,8 +117,10 @@ public class Runner {
 				try {
 				System.out.println("Flight Number :");
 				int flightNumber2 = sc.nextInt();
+				ft.checkFlightNumber(flightNumber2);
 				System.out.println("Ticket Number :");
 				int ticketNumber = sc.nextInt();
+				ft.checkTicketNumber(ticketNumber);
 				System.out.println("1.individual\n2.All");
 				int decision1 = sc.nextInt();
 				sc.nextLine();
@@ -134,6 +137,10 @@ public class Runner {
 
 				}
 				}
+				catch(InputMismatchException e) {
+					System.out.println("Enter numbers only");
+					sc.nextLine();
+				}
 				catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -144,6 +151,7 @@ public class Runner {
 				break;
 
 			case 5:
+				try {
 				System.out.println("What flight do show seat numbers for ordered meals");
 				System.out.println(
 						"Enter number 1.Flight-A112-Chennai-Mumbai\n2.Flight-A113-Chennai-Kolkata\n3.Flight-A114-Chennai-Delhi");
@@ -178,13 +186,23 @@ public class Runner {
 				default:
 					System.out.println("Enter correct number");
 				}
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Enter numbers only");
+					sc.nextLine();
+				}
 				break;
 				
 			case 6:
 				try {
 				System.out.println("Enter booking id");
 				int bookingId=sc.nextInt();
+				ft.checkTicketNumber(bookingId);
 				ft.printIndividualAndFlightSummary(bookingId);
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Enter numbers only");
+					sc.nextLine();
 				}
 				catch(Exception e) {
 					System.out.println(e.getMessage());

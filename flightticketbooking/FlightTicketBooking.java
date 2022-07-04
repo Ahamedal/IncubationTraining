@@ -454,12 +454,12 @@ public class FlightTicketBooking {
 	  }
   }
   
-  private void checkFlightNumber(int flightNumber)throws Exception {
+  public void checkFlightNumber(int flightNumber)throws Exception {
 	  if(flights.get(flightNumber)==null) {
 		  throw new Exception("Flight number is not valid");
 	  }
   }
-  private void checkTicketNumber(int ticketNumber)throws Exception {
+  public void checkTicketNumber(int ticketNumber)throws Exception {
 	  if(bookingTicket.get(ticketNumber)==null) {
 		  throw new Exception("Ticket number is notvalid");
 	  }

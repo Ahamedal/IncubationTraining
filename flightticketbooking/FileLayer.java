@@ -23,7 +23,7 @@ public class FileLayer {
 			System.out.println("Folder created successfully");
 		}
 		else {
-			System.out.println("Error Found");
+			System.out.println("Folder already excited");
 		}
 		
 	}
