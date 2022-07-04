@@ -54,8 +54,9 @@ public class TaxiRunner {
 									flag = true;
 								} else {
 
-									object.setHistoryForShare(pickUp, drop, pickUpTime, shareTaxiNo, amount, customerId,
-											bookingType);
+									System.out.println(object.setHistoryForShare(pickUp, drop, pickUpTime, shareTaxiNo, amount, customerId,
+											bookingType));
+									
 									flag2 = false;
 								}
 

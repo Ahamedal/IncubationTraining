@@ -265,7 +265,7 @@ public class CallTaxiBooking {
 		}
 	}
 
-	public void setHistoryForShare(char pickUp, char drop, double pickUpTime, int taxiNo, int amount, int customerId,
+	public String setHistoryForShare(char pickUp, char drop, double pickUpTime, int taxiNo, int amount, int customerId,
 			int bookingType) throws Exception {
 		Taxi tax = taxi.get(taxiNo - 1);
 		tax.setAmountEarned(tax.getAmountEarned() + amount);
@@ -273,6 +273,8 @@ public class CallTaxiBooking {
 		TaxiHistory taxiHistory = historySetter(pickUp, drop, pickUpTime, tax.getFreeTime(), amount, customerId,
 				bookingType, shareBook.getBookingId());
 		addHistory(taxiHistory, tax);
+		return "Booked Successfully\nYour booking Id is " + shareBook.getBookingId() + " alotted Taxi is Taxi_"
+		+ tax.getTaxiNo() + "\n";
 
 	}
 
