@@ -230,7 +230,7 @@ public class Chess {
 			String piece = chessBoard.get(currentPosition);
 			if (piece.equals("W_R") && currentPosition.equals("a1")) {
 				whiteRookLeftMove++;
-			} // for castling operation
+			}                                                       // for castling operation
 			if (piece.equals("W_R") && currentPosition.equals("h1")) {
 				whiteRookRightMove++;
 			}
@@ -240,39 +240,49 @@ public class Chess {
 			if (piece.equals("B_R") && currentPosition.equals("h8")) {
 				blackRookRightMove++;
 			}
-			if (piece.equals("W_K")) {
-				if (movePosition.equals("g1") && whiteKingMove == 0) {
+			if (piece.equals("W_K")&&(movePosition.equals("g1")||movePosition.equals("c1") )&& whiteKingMove == 0) {
+				if (movePosition.equals("g1") &&!isWhiteKingCheck()) {
 					chessBoard.put("h1", null);
 					chessBoard.put("f1", "W_R");
 					List<String> coin = coinPositions.get("W_R");
 					coin.remove("h1");
 					coin.add("f1");
+					whiteKingMove++;
 				}
-				if (movePosition.equals("c1") && whiteKingMove == 0) {
+				else if (movePosition.equals("c1") && whiteKingMove == 0&&!isWhiteKingCheck()) {
 					chessBoard.put("a1", null);
 					chessBoard.put("d1", "W_R");
 					List<String> coin = coinPositions.get("W_R");
 					coin.remove("a1");
 					coin.add("d1");
+					whiteKingMove++;
 				}
-				whiteKingMove++;
+				else {
+					throw new Exception("King is check so no allow for castling");
+				}
+				
 			}
-			if (piece.equals("B_K")) {
-				if (movePosition.equals("g8") && blackKingMove == 0) {
+			if (piece.equals("B_K")&&(movePosition.equals("g8")||movePosition.equals("c1"))&& blackKingMove == 0){
+				if (movePosition.equals("g8") &&!isBlackKingCheck()) {
 					chessBoard.put("h8", null);
 					chessBoard.put("f8", "B_R");
 					List<String> coin = coinPositions.get("B_R");
 					coin.remove("h8");
 					coin.add("f8");
+					blackKingMove++;
 				}
-				if (movePosition.equals("c1") && whiteKingMove == 0) {
+				else if (movePosition.equals("c1") && whiteKingMove == 0&&!isBlackKingCheck()) {
 					chessBoard.put("a8", null);
 					chessBoard.put("d8", "B_R");
 					List<String> coin = coinPositions.get("B_R");
 					coin.remove("a8");
 					coin.add("d8");
+					blackKingMove++;
 				}
-				blackKingMove++;
+				else {
+					throw new Exception("King is check so no allow for castling");
+				}
+				
 			}
 
 			String piece2 = chessBoard.get(movePosition);
@@ -624,7 +634,7 @@ public class Chess {
 		  {
 			  String coin=chessBoard.get(position);
 			  
-			  if( coin!=null&& coin.startsWith(color) &&!coin.endsWith("K") && isBlockCheck( position , getPosition( position ) ,color )   )
+			  if( coin!=null&& coin.startsWith(color)  && isBlockCheck( position , getPosition( position ) ,color )   )
 			  {
 				  return true;
 			  }
@@ -664,13 +674,26 @@ public class Chess {
 		 String movePiece=chessBoard.get(movePosition);
 		 chessBoard.put(currentPosition,null);
 		 chessBoard.put(movePosition, piece);
+		 List<String> temp=coinPositions.get("W_K");
+		 if(piece.endsWith("K")) {
+		 temp.remove(0);
+		 temp.add(movePosition);
+		 }
 		 if(!isWhiteKingCheck()) {
 			 chessBoard.put(currentPosition, piece);
 			 chessBoard.put(movePosition, movePiece);
+			 if(piece.endsWith("K")) {
+				 temp.remove(0);
+				 temp.add(currentPosition);
+			 }
 			 return true;
 		 }
 		 chessBoard.put(currentPosition, piece);
 		 chessBoard.put(movePosition, movePiece);
+		 if(piece.endsWith("K")) {
+			 temp.remove(0);
+			 temp.add(currentPosition);
+		 }
          return false;
 	}
 	public boolean moveBlackCheck(String currentPosition,String movePosition) throws Exception {
@@ -682,13 +705,26 @@ public class Chess {
 		 String movePiece=chessBoard.get(movePosition);
 		 chessBoard.put(currentPosition,null);
 		 chessBoard.put(movePosition, piece);
+		 List<String> temp=coinPositions.get("B_K");
+		 if(piece.endsWith("K")) {
+		 temp.remove(0);
+		 temp.add(movePosition);
+		 }
 		 if(!isBlackKingCheck()) {
 			 chessBoard.put(currentPosition, piece);
 			 chessBoard.put(movePosition, movePiece);
+			 if(piece.endsWith("K")) {
+				 temp.remove(0);
+				 temp.add(currentPosition);
+			 }
 			 return true;
 		 }
 		 chessBoard.put(currentPosition, piece);
 		 chessBoard.put(movePosition, movePiece);
+		 if(piece.endsWith("K")) {
+			 temp.remove(0);
+			 temp.add(currentPosition);
+		 }
         return false;
 	}
 	
