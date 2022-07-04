@@ -35,15 +35,17 @@ public class TaxiRunner {
 					char pickUp = sc.next().charAt(0);
 					System.out.println("Enter your drop point ");
 					char drop = sc.next().charAt(0);
+					sc.nextLine();
 					if (pickUp != drop) {
 						System.out.println("Enter Your pickUpTime");
-						double pickUpTime = sc.nextDouble();
+						String pickUpTime = sc.nextLine();
 						int bookingType = 1;
 						int amount = object.payment(pickUp, drop);
 						System.out.print("Charges For Normal(1) " + amount);
 						boolean flag = false;
 						boolean flag2 = true;
-						int shareTaxiNo = object.isShareAvailable(pickUp, drop, pickUpTime);
+						double pickUpTimes=object.changeTimeFormat(pickUpTime);
+						int shareTaxiNo = object.isShareAvailable(pickUp, drop, pickUpTimes);
 						if (object.isShareBooking(pickUp, drop) || shareTaxiNo != 0) {
 							System.out.println(" Share(2) " + ((amount * 40) / 100));
 							System.out.println("Enter bookingType");
@@ -54,7 +56,7 @@ public class TaxiRunner {
 									flag = true;
 								} else {
 
-									System.out.println(object.setHistoryForShare(pickUp, drop, pickUpTime, shareTaxiNo, amount, customerId,
+									System.out.println(object.setHistoryForShare(pickUp, drop, pickUpTimes, shareTaxiNo, amount, customerId,
 											bookingType));
 									
 									flag2 = false;
@@ -68,9 +70,9 @@ public class TaxiRunner {
 						for (int i = 0; i < k; i++) {
 							dropTime += 15;
 						}
-						double dropTime1 = object.calculateDropTime(pickUpTime, dropTime);
+						double dropTime1 = object.calculateDropTime(pickUpTimes, dropTime);
 						if (flag2) {
-							System.out.println(object.taxiBooking(pickUp, drop, pickUpTime, dropTime1, customerId,
+							System.out.println(object.taxiBooking(pickUp, drop, pickUpTimes, dropTime1, customerId,
 									bookingType, amount, flag));
 						}
 					} else {

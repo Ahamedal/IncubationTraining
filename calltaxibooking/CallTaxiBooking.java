@@ -184,11 +184,6 @@ public class CallTaxiBooking {
 		return string;
 	}
 
-	public String time(long time) {
-		SimpleDateFormat si = new SimpleDateFormat("hh:mm");
-		Date date = new Date(time);
-		return si.format(date);
-	}
 
 	int customerId = 0;
 
@@ -230,7 +225,8 @@ public class CallTaxiBooking {
 	}
 
 	public void addAvailablePoint(Map<Character, Double> availableSharePoints, char pickUpPoint, char dropPoint,
-			double pickUpTime) {
+			double pickUpTime) throws Exception {
+		objectCheck(availableSharePoints);
 		if (pickUpPoint < dropPoint) {
 			for (int i = pickUpPoint; i < dropPoint; i++) {
 
@@ -258,7 +254,30 @@ public class CallTaxiBooking {
 		+ tax.getTaxiNo() + "\n";
 
 	}
-
+    public double changeTimeFormat(String pickUpTime) throws Exception {
+    	stringCheck(pickUpTime);
+    	double time=0;
+    	if(pickUpTime.contains("AM")) {
+    		pickUpTime=pickUpTime.replaceAll(" ", "");
+    		pickUpTime=pickUpTime.replace("AM", "");
+    		time=Double.parseDouble(pickUpTime);
+    		
+    	}
+    	else if(pickUpTime.contains("PM")) {
+    		pickUpTime=pickUpTime.replaceAll(" ", "");
+    		pickUpTime=pickUpTime.replace("PM", "");
+    		time=Double.parseDouble(pickUpTime)+12.00;
+    	}
+    	else {
+    		time=Double.parseDouble(pickUpTime);
+    	}
+    	return time;
+    }
+    private void stringCheck(String str1) throws Exception{
+		  if(str1==null||str1.isEmpty()) {
+			  throw new Exception("String cannot be null or empty");
+		  }
+	  }
 	private void objectCheck(Object object) throws Exception {
 		if (object == null) {
 			throw new Exception("Object is cannot be null");
