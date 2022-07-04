@@ -9,7 +9,8 @@ import java.util.TreeMap;
 
 public class HyperloopPassengerBooking {
 
-	Map<Character,Map<Character,Integer>> connectingRoutes=new HashMap<>();
+	Map<Character,Map<Character,Integer>> connectingRoutes=new HashMap<>();       //A TO B=3
+	Map<Character,Map<Character,Integer>> otherConnectingRoutes=new HashMap<>();   //B TO A=3
 	Map<Integer,List<Passenger>> passengers=new TreeMap<>();
 	
 	
@@ -30,6 +31,12 @@ public class HyperloopPassengerBooking {
 			connectingRoutes.put(startingPoint, route);
 		}
 		route.put(endingPoint,distance);
+		Map<Character,Integer> route1=otherConnectingRoutes.get(endingPoint);
+		if(route1==null) {
+			route1=new HashMap<>();
+			otherConnectingRoutes.put(endingPoint, route1);
+		}
+		route1.put(startingPoint,distance);
 	}
 	
 	public void addPassenger(Passenger passenger) {
@@ -68,6 +75,32 @@ public class HyperloopPassengerBooking {
 	    
 	
 	}
+	private void getRoutes1(char start,char end,int dis,String string,Map<Integer,String> ans) throws Exception {
+		stringCheck(string);
+		objectCheck(ans);
+		if(start==end) {
+			ans.put(dis, string);
+    		return;
+    		
+    	}
+	    
+	    Map<Character,Integer> routes=otherConnectingRoutes.get(start);
+	    if(routes==null) {
+	    	return;
+	    }
+	    Set<Character> point=routes.keySet();
+	    for(char p:point) {
+	    	string+=" "+p;
+	    	dis+=routes.get(p);
+	    	
+	    	getRoutes1(p,end,dis,string,ans);      //recursive call
+	    	
+	    	dis-=routes.get(p);
+	    	string=string.replace(p+"", "");
+	    }
+	    
+	
+	}
 	public void forCommandAddPassenger(String name,int age,char destination,char startingPoint) throws Exception {
 		checkRoutes();
 		stringCheck(name);
@@ -77,6 +110,7 @@ public class HyperloopPassengerBooking {
 		passenger.setDestination(destination);
 		Map<Integer,String> fastestRoute=new TreeMap<>();
 		getRoutes(startingPoint,destination,0,String.valueOf(startingPoint),fastestRoute);
+		getRoutes1(startingPoint,destination,0,String.valueOf(startingPoint),fastestRoute);
 		Set<Integer> routes=fastestRoute.keySet();
 		for(int route:routes) {
 			passenger.setFastestRoute(fastestRoute.get(route));
