@@ -157,32 +157,14 @@ public class FoodDeliveryBooking {
 		return Double.parseDouble(ans);
 	}
 	public double findAddBetweenTwoTimes(double freeTime,int dropTime) {
-		double ans = 0.00;
-		double k = dropTime / 60;
-		ans = ans + k;
-		k = dropTime % 60;
-		k = k / 100;
-		ans = ans + k;
-        
-		String[] array1 = String.valueOf(ans).split("[.]");
+		String[] array1=String.valueOf(freeTime).split("[.]");
 		if (array1[1].length() == 1) {
 			array1[1] += "0";
 		}
-		String[] array2 = String.valueOf(freeTime).split("[.]");
-		if (array2[1].length() == 1) {
-			array2[1] += "0";
-		}
-		int dropTime2 = Integer.parseInt(array1[1]) + Integer.parseInt(array2[1]);
-		double ans1 = 0.00f;
-		double k1 = dropTime2 / 60;
-		ans1 = ans1 + k1;
-		k1 = dropTime2 % 60;
-		k1 = k1 / 100;
-		ans1 = ans1 + k1;
+		int totalMinutes=(Integer.parseInt(array1[0])*60)+Integer.parseInt(array1[1])+dropTime;
+		String string=String.valueOf(totalMinutes/60)+"."+String.valueOf(totalMinutes%60);
 
-		ans = ((int) freeTime) + ans1;
-
-		return ans;
+		return Double.parseDouble(string);
 
 
 	}
