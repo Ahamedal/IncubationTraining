@@ -168,14 +168,16 @@ public class FoodDeliveryBooking {
 
 
 	}
-	public boolean availableTimeForPickup(double pickUpTime,DeliveryExecutives executive) {
+	public boolean availableTimeForPickup(double pickUpTime,DeliveryExecutives executive) throws Exception {
+		objectCheck(executive);
 	double freeTime=executive.getFreeTime();
 	if(pickUpTime<freeTime) {
 		return false;
 	}
 	return true;
 	}
-	public DeliveryExecutives lowestEarning(List<DeliveryExecutives> executives) {
+	public DeliveryExecutives lowestEarning(List<DeliveryExecutives> executives) throws Exception {
+		objectCheck(executives);
 		int min = Integer.MAX_VALUE;
 		DeliveryExecutives lowest = null;
 		for (int i = 0; i < executives.size(); i++) {
@@ -197,6 +199,25 @@ public class FoodDeliveryBooking {
 		}
 		return string;
 	}
+	public double changeTimeFormat(String pickUpTime) throws Exception {
+		stringCheck(pickUpTime);
+    	double time=0;
+    	if(pickUpTime.contains("AM")) {
+    		pickUpTime=pickUpTime.replaceAll(" ", "");
+    		pickUpTime=pickUpTime.replace("AM", "");
+    		time=Double.parseDouble(pickUpTime);
+    		
+    	}
+    	else if(pickUpTime.contains("PM")) {
+    		pickUpTime=pickUpTime.replaceAll(" ", "");
+    		pickUpTime=pickUpTime.replace("PM", "");
+    		time=Double.parseDouble(pickUpTime)+12.00;
+    	}
+    	else {
+    		time=Double.parseDouble(pickUpTime);
+    	}
+    	return time;
+    }
 	 private void stringCheck(String str1) throws Exception{
 		  if(str1==null||str1.isEmpty()) {
 			  throw new Exception("String cannot be null or empty");
