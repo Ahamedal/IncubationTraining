@@ -109,11 +109,16 @@ public class Runner {
 						}
 					}
 					else {
+						try {
 						if (ch.move(coinPosition, movePosition, position)) {
 							System.out.println(ch.printingBoard());
 							flag = false;
 						} else {
 							System.out.println("moved position is wrong");
+						}
+						}
+						catch(Exception e) {
+							System.out.println(e.getMessage());
 						}
 
 					}
@@ -219,11 +224,16 @@ public class Runner {
 					}
 					
 					else {
+						try {
 						if (ch.move(coinPosition1, movePosition1, position1)) {
 							System.out.println(ch.printingBoard());
 							flag1 = false;
 						} else {
 							System.out.println("moved position is wrong");
+						}
+						}
+						catch(Exception e) {
+							System.out.println(e.getMessage());
 						}
 					}
 				}

@@ -150,6 +150,7 @@ public class Chess {
 	}
 
 	public void addCoinPosition(String piece, String position) {
+		
 		List<String> li = coinPositions.get(piece);
 		if (li == null) {
 			li = new ArrayList<>();
@@ -183,14 +184,16 @@ public class Chess {
 			return movedPositionPawn(b, a, position);
 		}
 		if (piece.endsWith("N")) {
-			return movedPositionKnight(b, a, position);
+			return movedPositionKnight( position);
 		}
 		return null;
 	}
 
-	public boolean checkOppositeCoin(String postion, String postion2) {
-		String current = chessBoard.get(postion);
-		String end = chessBoard.get(postion2);
+	public boolean checkOppositeCoin(String position, String position2) throws Exception {
+		stringCheck(position);
+		stringCheck(position2);
+		String current = chessBoard.get(position);
+		String end = chessBoard.get(position2);
 		if (current != null && end != null) {
 			if (current.charAt(0) != end.charAt(0)) {
 				return true;
@@ -202,6 +205,7 @@ public class Chess {
 
 	public boolean checkPlayerMoveOppositeCoin(String postion, char color) throws Exception {
 		checkPosition(postion);
+		
 		String piece = chessBoard.get(postion);
 		if (piece.charAt(0) == color) {
 			return true;
@@ -209,14 +213,18 @@ public class Chess {
 		return false;
 	}
 
-	public boolean checkAbstract(String postion) {
+	public boolean checkAbstract(String postion) throws Exception {
+		stringCheck(postion);
 		if (chessBoard.get(postion) == null) {
 			return false;
 		}
 		return true;
 	}
 
-	public boolean move(String currentPosition, String movePosition, List<String> position) {
+	public boolean move(String currentPosition, String movePosition, List<String> position) throws Exception {
+		stringCheck(currentPosition);
+		stringCheck(movePosition);
+		objectCheck(position);
 		if (position.contains(movePosition) || position.contains(movePosition + " can be captured")) {
 
 			String piece = chessBoard.get(currentPosition);
@@ -293,7 +301,8 @@ public class Chess {
 		return recordingMoves;
 	}
 
-	public List<String> movedPositionRook(String position) {
+	public List<String> movedPositionRook(String position) throws Exception {
+		stringCheck(position);
 		List<String> listOfMovings = new ArrayList<>();
 
 		int rowMoves[] = { 1, -1, 0, 0 };
@@ -329,7 +338,8 @@ public class Chess {
 		return listOfMovings;
 	}
 
-	public List<String> movedPositionBishop(String position) {
+	public List<String> movedPositionBishop(String position) throws Exception {
+		stringCheck(position);
 		List<String> listOfMovings = new ArrayList<>();
 
 		int rowMoves[] = { 1, -1, -1, 1 };
@@ -366,14 +376,16 @@ public class Chess {
 
 	}
 
-	public List<String> movedPositionQueen(String postion) {
+	public List<String> movedPositionQueen(String position) throws Exception {
+		stringCheck(position);
 		List<String> lis = new ArrayList<>();
-		lis.addAll(movedPositionRook(postion));
-		lis.addAll(movedPositionBishop(postion));
+		lis.addAll(movedPositionRook(position));
+		lis.addAll(movedPositionBishop(position));
 		return lis;
 	}
 
 	public List<String> movedPositionKing(String position) throws Exception {
+		stringCheck(position);
 		List<String> lis = new ArrayList<>();
 		int rowMoves[] = { 1, -1, 0, 0, 1, -1, 1, -1 };
 		int colMoves[] = { 0, 0, 1, -1, 1, -1, -1, 1 };
@@ -441,8 +453,8 @@ public class Chess {
 
 	}
 
-	public List<String> movedPositionPawn(int row, int col, String position) {
-
+	public List<String> movedPositionPawn(int row, int col, String position) throws Exception {
+		stringCheck(position);
 		List<String> li = new ArrayList<>();
 		String piece = chessBoard.get(position);
 		int size = 1;
@@ -492,7 +504,7 @@ public class Chess {
 
 	}
 
-	public void checkOppositeCoinForPawn(String postion, int rows, char columns, List<String> li) {
+	public void checkOppositeCoinForPawn(String postion, int rows, char columns, List<String> li) throws Exception {
 		String string=""+columns+rows;
 		if (rows > 0 && rows <= 8 && columns >= 'a' && columns <= 'h'&&checkOppositeCoin(postion, string)) {
 			li.add(string + " can be captured");
@@ -502,7 +514,8 @@ public class Chess {
 
 	}
 
-	public List<String> movedPositionKnight(int row, int col, String position) {
+	public List<String> movedPositionKnight(String position) throws Exception {
+		stringCheck(position);
 		List<String> knightMoves = new ArrayList<>();
 		int rowMoves[] = { 1, 1, -1, -1, 2, 2, -2, -2 };
 		int colMoves[] = { 2, -2, 2, -2, 1, -1, 1, -1 };
@@ -606,8 +619,10 @@ public class Chess {
 		return false;
 
 	}
-
+    
 	public boolean getCoinPositions(List<String> kingPosition, String color) throws Exception {
+		stringCheck(color);
+		objectCheck(kingPosition);
 		Set<String> pieces = coinPositions.keySet();
 		for (String piece : pieces) {
 			if (piece.startsWith(color)) {
@@ -625,7 +640,8 @@ public class Chess {
 	}
 
 	public boolean isKingCheck(String position, String color) throws Exception {
-
+		stringCheck(position);
+		stringCheck(color);
 		Set<String> pieces = coinPositions.keySet();
 		for (String piece : pieces) {
 			if (piece.startsWith(color)) {
@@ -672,6 +688,7 @@ public class Chess {
 			return false;
 		}
 		if (isWhiteKingCheck()) {
+			
 			return true;
 		}
 		return false;
@@ -746,6 +763,10 @@ public class Chess {
 	}
 
 	public void getHelp(String position, String color, List<String> help, String ourCoin) throws Exception {
+		stringCheck(position);
+		stringCheck(color);
+		objectCheck(help);
+		stringCheck(ourCoin);
 		String string = "";
 		Set<String> pieces = coinPositions.keySet();
 		for (String piece : pieces) {
@@ -766,6 +787,9 @@ public class Chess {
 	}
 
 	public List<String> getHelp(String position, String color, String coinPosition) throws Exception {
+		stringCheck(position);
+		stringCheck(color);
+		stringCheck(coinPosition);
 		List<String> help = new ArrayList<>();
 		String piece2=chessBoard.get(position);
 		String piece = chessBoard.get(coinPosition);
@@ -781,7 +805,16 @@ public class Chess {
 		chessBoard.put(position, piece2);
 		return help;
 	}
-
+	private void stringCheck(String string) throws Exception {
+    	if(string==null||string.isEmpty()) {
+    		throw new Exception("String cannot be null or empty");
+    	}
+    }
+    private void objectCheck(Object object) throws Exception {
+    	if(object==null) {
+    		throw new Exception("String cannot be null or empty");
+    	}
+    }
 	private void checkPosition(String position) throws Exception {
 		if (chessBoard.get(position) == null) {
 			throw new Exception("Position is wrong or dont coin in that place");
