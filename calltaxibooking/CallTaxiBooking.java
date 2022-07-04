@@ -97,7 +97,7 @@ public class CallTaxiBooking {
 		taxiHistory.setDropTime(dropTime);
 		return taxiHistory;
 	}
-
+    
 	public boolean availableTimeForPickUp(char pickUpPoint, double pickUpTime, Taxi taxiObj) throws Exception {
 		objectCheck(taxiObj);
 		double freeTime = taxiObj.getFreeTime();
@@ -205,33 +205,14 @@ public class CallTaxiBooking {
 	}
 
 	public double calculateDropTime(double pickUpTime, int dropTime) {
-
-		double ans = 0.00;
-		double k = dropTime / 60;
-		ans = ans + k;
-		k = dropTime % 60;
-		k = k / 100;
-		ans = ans + k;
-
-		String[] array1 = String.valueOf(ans).split("[.]");
+		String[] array1=String.valueOf(pickUpTime).split("[.]");
 		if (array1[1].length() == 1) {
 			array1[1] += "0";
 		}
-		String[] array2 = String.valueOf(pickUpTime).split("[.]");
-		if (array2[1].length() == 1) {
-			array2[1] += "0";
-		}
-		int dropTime2 = Integer.parseInt(array1[1]) + Integer.parseInt(array2[1]);
-		double ans1 = 0.00f;
-		double k1 = dropTime2 / 60;
-		ans1 = ans1 + k1;
-		k1 = dropTime2 % 60;
-		k1 = k1 / 100;
-		ans1 = ans1 + k1;
+		int totalMinutes=(Integer.parseInt(array1[0])*60)+Integer.parseInt(array1[1])+dropTime;
+		String string=String.valueOf(totalMinutes/60)+"."+String.valueOf(totalMinutes%60);
 
-		ans = ((int) pickUpTime) + ans1;
-
-		return ans;
+		return Double.parseDouble(string);
 	}
 
 	public int isShareAvailable(char pickUp, char drop, double pickUpTime) {
