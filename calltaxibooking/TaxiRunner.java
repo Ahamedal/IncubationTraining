@@ -22,9 +22,19 @@ public class TaxiRunner {
 			}
 		}
 		while (condition) {
-			System.out.println("Enter 1.Booking 2.print taxi deatils 3.Exit");
-			int choose = sc.nextInt();
+			int choose =0;
+			while(true) {
+				try {
+			System.out.println("Enter 1.Booking 2.Show travel history of taxi 3.Exit");
+			choose = sc.nextInt();
 			sc.nextLine();
+			break;
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Enter numbers only");
+					sc.nextLine();
+				}
+			}
 			switch (choose) {
 			case 1:
 				try {

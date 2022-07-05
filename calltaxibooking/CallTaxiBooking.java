@@ -1,7 +1,6 @@
 package calltaxibooking;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -175,8 +174,8 @@ public class CallTaxiBooking {
 			string += "Booking Id\t\tstart point\t\tend point\t\tstartTime\t\tDrop Time\t\tBookingType\t\tCharges\n";
 			for (int k = 0; k < l.size(); k++) {
 				string += l.get(k).getBookingId() + "\t\t\t" + l.get(k).getPickUpPoint() + "\t\t\t"
-						+ l.get(k).getDropPoint() + "\t\t\t" + l.get(k).getPickUpTime() + "\t\t\t"
-						+ l.get(k).getDropTime() + "\t\t\t" + l.get(k).getBookingType() + "\t\t\t"
+						+ l.get(k).getDropPoint() + "\t\t\t" + setTime(l.get(k).getPickUpTime()) + "\t\t\t"
+						+ setTime(l.get(k).getDropTime()) + "\t\t\t" + l.get(k).getBookingType() + "\t\t\t"
 						+ l.get(k).getAmount() + "\n";
 			}
 
@@ -184,7 +183,33 @@ public class CallTaxiBooking {
 		return string;
 	}
 
+	public String setTime(double pickUpTime) {
+		String[] array=String.valueOf(pickUpTime).split("[.]");
+		if(array[1].length()==1) {
+			array[1]+="0";
+		}
+		String resu="";
+        int time=(Integer.parseInt(array[0])*60)+Integer.parseInt(array[1]);
+		if((time/60)<12) {
+		resu=(time/60)+"";
 
+		resu+=":"+time%60;
+		resu+=" AM";
+		}
+		else {
+			if((time/60)>=13){
+		    resu=(time/60)-12+"";
+			}
+			else {
+				  resu=(time/60)+"";	
+			}
+          
+		resu+=":"+time%60;
+		resu+=" PM";
+		}
+		   return resu;
+		//return array[0]+"."+array[1];
+	}
 	int customerId = 0;
 
 	public int generatCustomerId() {
