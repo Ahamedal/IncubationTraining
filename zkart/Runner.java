@@ -18,9 +18,18 @@ public class Runner {
 		}
 		boolean condition = true;
 		while (condition) {
-			System.out.println("1.Customer Signup \n2.Login\n3.Admin login\n4.Exit");
-			int sel = sc.nextInt();
-			sc.nextLine();
+			int sel = 0;
+			while (true) {
+				try {
+					System.out.println("1.Customer Signup \n2.Login\n3.Admin login\n4.Exit");
+					sel = sc.nextInt();
+					sc.nextLine();
+					break;
+				} catch (InputMismatchException e) {
+					System.out.println("Enter numbers only");
+					sc.nextLine();
+				}
+			}
 			switch (sel) {
 
 			case 1:
@@ -73,12 +82,10 @@ public class Runner {
 
 					objForLogic.addCustomer(cus);
 					System.out.println("Signup successfully");
-				}
-				catch(InputMismatchException e) {
+				} catch (InputMismatchException e) {
 					System.out.println("Enter numbers only");
 					sc.nextLine();
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -147,8 +154,8 @@ public class Runner {
 
 									System.out.println("Your orderDetails\n");
 									for (int i = 0; i < listOfKart.size(); i++) {
-
-										totalAmount += (objForLogic.getProduct(listOfKart.get(i)).getPriceOfProduct()
+                                        Product product=objForLogic.getProduct(listOfKart.get(i));
+										totalAmount += ((product.getPriceOfProduct()-((product.getPriceOfProduct()*product.getDiscount())/100))
 												* noOfNeeds.get(i));
 
 										System.out.println(
@@ -177,12 +184,10 @@ public class Runner {
 							}
 						}
 					}
-				}
-				catch(InputMismatchException e) {
+				} catch (InputMismatchException e) {
 					System.out.println("Enter numbers only");
 					sc.nextLine();
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -254,12 +259,10 @@ public class Runner {
 						} else {
 							System.out.println("Your emailId and password is wrong");
 						}
-					}
-					catch(InputMismatchException e) {
+					} catch (InputMismatchException e) {
 						System.out.println("Enter numbers only");
 						sc.nextLine();
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
 
