@@ -93,12 +93,38 @@ public class FoodDeliveryBooking {
 			
 				string += dh.getTrip() + "\t\t\t" + dh.getExecutiveName()+ "\t\t\t"
 						+ dh.getRestaurantName()+ "\t\t\t" + dh.getDestinationPoint()+ "\t\t\t"
-						+ dh.getOrders()+ "\t\t\t" + dh.getPickUpTime()+ "\t\t\t"
-						+ dh.getDeliveryTime()+"\t\t\t" + dh.getDeliveryCharge()+"\n";
+						+ dh.getOrders()+ "\t\t\t" + setTime(dh.getPickUpTime())+ "\t\t\t"
+						+ setTime(dh.getDeliveryTime())+"\t\t\t" + dh.getDeliveryCharge()+"\n";
 		
 
 		}
 		return string;
+	}
+	public String setTime(double pickUpTime) {
+		String[] array=String.valueOf(pickUpTime).split("[.]");
+		if(array[1].length()==1) {
+			array[1]+="0";
+		}
+		String resu="";
+        int time=(Integer.parseInt(array[0])*60)+Integer.parseInt(array[1]);
+		if((time/60)<12) {
+		resu=(time/60)+"";
+
+		resu+=":"+time%60;
+		resu+=" AM";
+		}
+		else {
+			if((time/60)>=13){
+		    resu=(time/60)-12+"";
+			}
+			else {
+				  resu=(time/60)+"";	
+			}
+          
+		resu+=":"+time%60;
+		resu+=" PM";
+		}
+		   return resu;
 	}
 	public String getExecutiveDetails() {
 		String details="";

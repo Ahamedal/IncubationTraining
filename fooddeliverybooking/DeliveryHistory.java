@@ -47,6 +47,7 @@ public class DeliveryHistory {
 		return pickUpTime;
 	}
 	public void setPickUpTime(double pickUpTime) {
+		
 		this.pickUpTime = pickUpTime;
 	}
 	public double getDeliveryTime() {

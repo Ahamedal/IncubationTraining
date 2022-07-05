@@ -17,9 +17,19 @@ public class Runner {
 	sc.nextLine();
 	fd.addDeliveryExecutive(executiveCount);
 	while(condition) {
+		int choose=0;
+		while(true) {
+	    try {
 		System.out.println("Enter 1.Booking 2.show delivery history 3.show executives Details  4.Exit");
-		int choose=sc.nextInt();
+		choose=sc.nextInt();
 		sc.nextLine();
+		break;
+	    }
+	    catch(InputMismatchException e) {
+	    	System.out.println("Enter numbers only");
+	        sc.nextLine();
+	    }
+		}
 		switch(choose) {
 		case 1:
 			try {
