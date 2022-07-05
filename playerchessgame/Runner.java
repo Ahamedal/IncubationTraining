@@ -12,6 +12,7 @@ public class Runner {
 		Scanner sc = new Scanner(System.in);
 		Chess ch = new Chess();
 		ch.initialSetUp();
+		ch.printingBoard();
 
 		int i = 0;
 
