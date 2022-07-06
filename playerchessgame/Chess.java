@@ -13,9 +13,12 @@ public class Chess {
 	int blackRookRightMove = 0;
 	int whiteRookLeftMove = 0;
 	int whiteRookRightMove = 0;
+	
 	Map<String, String> chessBoard = new HashMap<>();
 	Map<String, List<String>> coinPositions = new HashMap<>();
 	List<String> recordingMoves = new ArrayList<>();
+	
+	FileLayer fl=new FileLayer();
 
 	void initialSetUp() {
 		chessBoard.put("a1", "W_R");
@@ -296,10 +299,12 @@ public class Chess {
 			if (position.contains(movePosition)) {
 
 				recordingMoves.add(piece + " at " + currentPosition + " has been moved to " + movePosition);
+				fl.writeFile(recordingMoves);
 			} else {
 				pieceTwo.remove(movePosition);
 				recordingMoves
 						.add(piece + " at " + currentPosition + " has been captured " + piece2 + " at " + movePosition);
+				fl.writeFile(recordingMoves);
 			}
 			return true;
 		}
