@@ -9,20 +9,64 @@ table, th, td {
 border:1px solid black;
 }
 </style>
+<script>
+function checkString(form) {
+    if (form.uname.value.trim() == null ||
+        form.uname.value.trim() == undefined ||
+        form.uname.value.trim().length == 0) {
+       
+    	 document.getElementById("span").innerHTML = "*String Cannot be null or Empty!";
+        return false;
+    } 
+   else {
+        	form.uname.value=form.uname.value.trim();
+        	form.uadd.value=form.uadd.value.trim() 
+            
+            return true;
+        }
+}
+function charCheck(evt) {
+	 var charCod = (evt.which) ? evt.which : event.keyCode;
+	 if(charCod==32||(charCod>64&&charCod<123)){
+		 document.getElementById("span").innerHTML = "";
+        return true;
+	 }
+	 else{
+		 document.getElementById("span").innerHTML = "*Please enter Albhabets only!";
+        return false;
+	 }
+}
+function Numeric(evt)
+{
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && ( charCode < 48 || charCode > 57))
+        {
+            document.getElementById("span").innerHTML = "*Please enter Numeric value only!";
+            return false;
+        }
+        else
+        {
+            document.getElementById("span").innerHTML = "";
+            return true;
+        }
+}
+</script>
 </head>
 <body>
 
 <h1>Add Customer</h1><br>
-
-<label>Name:</label><br><br>
-<input type="text" placeholder="Enter name" id="name"><br><br>
+<form name="form" onsubmit="checkString(form)" >
+<label for="uname">Name:</label><br><br>
+<input type="text" placeholder="Enter name" onkeypress="return charCheck(event)"  id="name" name="uname" required><br><br>
 <label>Address:</label><br><br>
-<input type="text" placeholder="Enter Address" id="address"><br><br>
+<input type="text" placeholder="Enter Address" id="address" required ><br><br>
 <label>Mobile Number</label><br><br>
-<input type="text" placeholder="Enter MobileNumber" id="mn"><br><br>
+<input type="text" placeholder="Enter MobileNumber" id="mn" pattern=".{10,}" maxlength="10" onkeypress="return Numeric(event)" required ><br><br>
+
+</form>
 <button onclick="display()" type="submit">Submit</button> <br></br>
 
 <table  id="title"></table>
-
+<label><span id="span"></span></label>
 </body>
 </html>
